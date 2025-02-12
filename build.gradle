@@ -45,7 +45,7 @@ dependencies {
 }
 
 application {
-	mainClass = 'org.advance.stock.MainApp'
+	mainClass = 'org.advance.glass.MainApp'
 }
 
 javafx {

@@ -1,4 +1,4 @@
-package org.advance.stock;
+package org.advance.glass;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

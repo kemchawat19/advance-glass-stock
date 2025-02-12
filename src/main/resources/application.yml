@@ -5,4 +5,4 @@ server:
 
 spring:
   application:
-    name: stock
+    name: advance-glass-stock

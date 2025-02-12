@@ -1,4 +1,4 @@
-package org.advance.stock;
+package org.advance.glass;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

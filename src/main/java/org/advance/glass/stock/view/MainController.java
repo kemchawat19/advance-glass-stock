@@ -1,4 +1,4 @@
-package org.advance.stock.view;
+package org.advance.glass.stock.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
