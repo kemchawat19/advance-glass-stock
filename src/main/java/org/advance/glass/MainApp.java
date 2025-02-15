@@ -1,19 +1,18 @@
 package org.advance.glass;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class MainApp extends Application {
+public class MainApp extends javafx.application.Application {
 
     private ConfigurableApplicationContext springContext;
 
     @Override
     public void init() {
-        springContext = new SpringApplicationBuilder(StockApplication.class).run();
+        springContext = new SpringApplicationBuilder(Application.class).run();
     }
 
     @Override

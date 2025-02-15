@@ -1,0 +1,41 @@
+2025-02-16 03:37:45.379334+07:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "INVENTORY" already exists; SQL statement:
+CREATE TABLE inventory (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_code VARCHAR(50) NOT NULL UNIQUE,
+    product_name VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    quantity INT NOT NULL,
+    cost_price DECIMAL(10,2),
+    selling_price DECIMAL(10,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) [42101-224]
+2025-02-16 04:14:56.829628+07:00 database: wrong user or password; user: ""
+org.h2.message.DbException: Wrong user name or password [28000-224]
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.engine.Engine.openSession(Engine.java:154)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.server.TcpServerThread.run(TcpServerThread.java:175)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name or password [28000-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:522)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 8 more
+2025-02-16 04:14:58.793892+07:00 database: wrong user or password; user: ""
+org.h2.message.DbException: Wrong user name or password [28000-224]
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.engine.Engine.openSession(Engine.java:154)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.server.TcpServerThread.run(TcpServerThread.java:175)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name or password [28000-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:522)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 8 more
