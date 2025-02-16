@@ -1,0 +1,71 @@
+/* Global styling */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #f5f5f5;
+}
+
+/* Top Header */
+.header {
+    -fx-background-color: #2c3e50;
+}
+.header-title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* Side Navigation */
+.side-nav {
+    -fx-background-color: #34495e;
+    -fx-pref-width: 200px;
+}
+.nav-header {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10 0 10 0;
+    -fx-alignment: center;
+}
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 8 10 8 10;
+}
+.nav-button:hover {
+    -fx-background-color: #3c597a;
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+.dashboard-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+.dashboard-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #7f8c8d;
+}
+.dashboard-value {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Status Bar */
+.status-bar {
+    -fx-background-color: #ecf0f1;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1 0 0 0;
+}
+.status-text {
+    -fx-text-fill: #7f8c8d;
+}

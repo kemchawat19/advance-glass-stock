@@ -18,9 +18,10 @@ public class MainApp extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/dashboard.fxml"));
+        Scene scene = new Scene(root, 800, 600);
         primaryStage.setTitle("Inventory Management System");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
