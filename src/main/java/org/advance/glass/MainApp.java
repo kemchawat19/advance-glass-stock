@@ -1,6 +1,7 @@
 package org.advance.glass;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -17,11 +18,9 @@ public class MainApp extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
-        loader.setControllerFactory(springContext::getBean);
-
-        primaryStage.setScene(new Scene(loader.load()));
-        primaryStage.setTitle("Spring Boot + JavaFX App");
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
+        primaryStage.setTitle("Inventory Management System");
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

@@ -2,24 +2,23 @@ package org.advance.glass.stock.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.springframework.stereotype.Component;
 
-@Component
 public class MainController {
-
-    @FXML
-    private Label messageLabel;
 
     @FXML
     private Label welcomeText;
 
     @FXML
-    public void initialize() {
-        messageLabel.setText("Welcome to JavaFX with Spring Boot 3.2.2!");
-    }
+    private Label messageLabel;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    public void onHelloButtonClick() {
+        // This sample simply updates the labels when the button is clicked.
+        welcomeText.setText("Hello, Inventory Management!");
+        messageLabel.setText("Button clicked!");
+
+        // In a real application you could, for example, trigger a REST call:
+        // String response = callRestEndpoint();
+        // messageLabel.setText(response);
     }
 }
