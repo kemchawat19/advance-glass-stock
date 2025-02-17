@@ -1,69 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.advance.glass.stock.view.DashboardController"
-            stylesheets="@/css/dashboard.css">
-
-    <!-- Side Navigation (Left) -->
-    <left>
-        <VBox spacing="10" styleClass="side-nav">
-            <padding>
-                <Insets top="20" right="10" bottom="20" left="10"/>
-            </padding>
-            <Label text="Menu" styleClass="nav-header"/>
-            <Button text="Dashboard" onAction="#handleDashboard" styleClass="nav-button"/>
-            <Button text="Products" onAction="#handleProducts" styleClass="nav-button"/>
-            <Button text="Receipts" onAction="#handleReceipts" styleClass="nav-button"/>
-            <Button text="Requests" onAction="#handleRequests" styleClass="nav-button"/>
-            <Button text="Reports" onAction="#handleReports" styleClass="nav-button"/>
-        </VBox>
-    </left>
-
-    <!-- Dashboard Content (Center) -->
-    <center>
-        <VBox spacing="20" alignment="CENTER" styleClass="dashboard-content">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-            <Label text="Dashboard" styleClass="dashboard-title"/>
-            <!-- Additional dashboard elements (charts, tables, etc.) go here -->
-            <HBox spacing="10">
-                <Label text="Total Products:" styleClass="dashboard-label"/>
-                <Label fx:id="totalProductsLabel" text="0" styleClass="dashboard-value"/>
-            </HBox>
-            <HBox spacing="10">
-                <Label text="Total Stock:" styleClass="dashboard-label"/>
-                <Label fx:id="totalStockLabel" text="0" styleClass="dashboard-value"/>
-            </HBox>
-        </VBox>
-    </center>
-
-    <!-- Optional Top Header -->
-    <top>
-        <HBox alignment="CENTER" styleClass="header">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Label text="Inventory Management System" styleClass="header-title"/>
-        </HBox>
-    </top>
-
-    <!-- Optional Bottom Status Bar -->
-    <bottom>
-        <HBox alignment="CENTER" styleClass="status-bar">
-            <padding>
-                <Insets top="5" right="10" bottom="5" left="10"/>
-            </padding>
-            <Label fx:id="statusLabel" text="Ready" styleClass="status-text"/>
-        </HBox>
-    </bottom>
-
-</BorderPane>
+<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.advance.glass.stock.view.DashboardController"
+      spacing="20" alignment="CENTER" styleClass="dashboard-content">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <Label text="Dashboard" styleClass="dashboard-title"/>
+    <Label fx:id="totalProductsLabel" text="Total Products: 0" styleClass="dashboard-value"/>
+    <Label fx:id="totalStockLabel" text="Total Stock: 0" styleClass="dashboard-value"/>
+</VBox>
