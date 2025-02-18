@@ -19,6 +19,7 @@ import java.time.LocalTime;
 
 public class ReceiptController {
 
+    // FXML-bound controls from receipt_scene.fxml
     @FXML
     private TextField receiptNoField;
     @FXML
@@ -26,32 +27,35 @@ public class ReceiptController {
     @FXML
     private DatePicker importDatePicker;
     @FXML
-    private TableView<?> receiptDetailTable;  // Optionally manage multiple details
-
+    private TableView<?> receiptDetailTable; // Optional: if you're showing details in a table
     @FXML
     private Label statusLabel;
 
+    // This initialize method is automatically called after FXML loading.
     @FXML
     public void initialize() {
-        // Optionally set default values or initialize table columns.
+        // Set default values if needed
+        statusLabel.setText("Status: Waiting");
     }
 
+    // Called when the "Add Detail" button is pressed.
     @FXML
     public void handleAddReceiptDetail() {
-        // Code to add detail rows to receiptDetailTable or open a detail dialog.
+        // Here you would add logic to open a dialog or add a row to the receiptDetailTable.
         System.out.println("Add Receipt Detail clicked");
     }
 
+    // Called when the "Create Receipt" button is pressed.
     @FXML
     public void handleCreateReceipt() {
-        // Collect data from the form.
+        // 1. Collect data from the UI fields.
         String receiptNo = receiptNoField.getText();
         String supplier = supplierField.getText();
         LocalDate importDate = importDatePicker.getValue();
         LocalDateTime importDateTime = (importDate != null) ? LocalDateTime.of(importDate, LocalTime.now()) : null;
 
-        // Build the DTO.
-        // For this example, we use a single detail entry. You can expand it to a list if needed.
+        // 2. Build a DTO for the receipt entry.
+        // In this example, we use a single detail entry for demonstration.
         CreateReceiptEntryReqDto dto = CreateReceiptEntryReqDto.builder()
                 .receiptNo(receiptNo)
                 .supplier(supplier)
@@ -59,29 +63,29 @@ public class ReceiptController {
                 .status("COMPLETED")
                 .details(java.util.Collections.singletonList(
                         CreateReceiptEntryReqDto.Detail.builder()
-                                .stockId(1L)  // Replace with actual stock ID value
-                                .quantity(100) // Replace with actual quantity
-                                .unitCost(new java.math.BigDecimal("5.00"))
-                                .totalCost(new java.math.BigDecimal("500.00"))
+                                .stockId(1L)         // Replace with actual stock ID from detail dialog or table
+                                .quantity(100)       // Replace with the user-entered quantity
+                                .unitCost(new java.math.BigDecimal("5.00"))   // Replace with actual unit cost
+                                .totalCost(new java.math.BigDecimal("500.00"))  // Replace with calculated total cost
                                 .build()
                 ))
                 .build();
 
-        // Prepare the REST call.
+        // 3. Prepare and make the REST call using RestTemplate.
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<CreateReceiptEntryReqDto> requestEntity = new HttpEntity<>(dto, headers);
 
         try {
-            // POST the DTO to your backend endpoint.
+            // Adjust the endpoint URL as necessary.
             ResponseEntity<ReceiptEntry> response = restTemplate.postForEntity("http://localhost:8080/receipt-entry", requestEntity, ReceiptEntry.class);
             if (response.getStatusCode().is2xxSuccessful()) {
                 ReceiptEntry createdEntry = response.getBody();
                 statusLabel.setText("Receipt created with ID: " + createdEntry.getId());
                 System.out.println("Created Receipt: " + createdEntry);
             } else {
-                statusLabel.setText("Failed to create receipt, status: " + response.getStatusCode());
+                statusLabel.setText("Failed to create receipt. Status: " + response.getStatusCode());
             }
         } catch (Exception ex) {
             ex.printStackTrace();

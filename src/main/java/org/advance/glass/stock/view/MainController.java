@@ -13,23 +13,48 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        // Optionally, load the default view (e.g., dashboard) when the application starts.
-        loadContent("/fxml/dashboard.fxml");
+        // Optionally load a default view, e.g., Stock.
+        loadContent("/fxml/stock_scene.fxml");
     }
 
     @FXML
-    public void handleDashboard() {
-        loadContent("/fxml/dashboard.fxml");
+    public void handleStock() {
+        loadContent("/fxml/stock_scene.fxml");
     }
 
     @FXML
-    public void handleReceipt() {
+    public void handleReceiptEntry() {
         loadContent("/fxml/receipt_scene.fxml");
     }
 
     @FXML
-    public void handleRequest() {
+    public void handleRequestEntry() {
         loadContent("/fxml/request_scene.fxml");
+    }
+
+    @FXML
+    public void handleJob() {
+        loadContent("/fxml/job_scene.fxml");
+    }
+
+    @FXML
+    public void handleReport() {
+        loadContent("/fxml/report_scene.fxml");
+    }
+
+    @FXML
+    public void handleMasterProduct() {
+        loadContent("/fxml/master_product.fxml");
+    }
+
+    @FXML
+    public void handleMasterCustomer() {
+        loadContent("/fxml/master_customer.fxml");
+    }
+
+    @FXML
+    public void handleMasterSupplier() {
+        loadContent("/fxml/master_supplier.fxml");
     }
 
     private void loadContent(String fxmlPath) {
