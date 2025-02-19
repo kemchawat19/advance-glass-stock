@@ -11,42 +11,60 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "stock_transaction")
+@Table(name = "entry")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StockTransaction {
+public class Entry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Many transactions can refer to one product
-    @ManyToOne
-    @JoinColumn(name = "stock_id", nullable = false)
-    private Stock stock;
+    @NotNull
+    @Size(max = 20)
+    @Column(nullable = false)
+    private String entryNumber;
 
     @NotNull
     @Size(max = 20)
-    @Column(name = "transaction_type", nullable = false)
-    private String transactionType; // e.g., "RECEIPT", "DISPATCH"
+    @Column(nullable = false)
+    private String type;
 
     @NotNull
-    @Column(name = "quantity_change", nullable = false)
-    private int quantityChange;
+    @Column(nullable = false)
+    private LocalDateTime entryDate;
 
-    @CreationTimestamp
-    @Column(name = "transaction_date", updatable = false)
-    private LocalDateTime transactionDate;
+    @Size(max = 20)
+    private String jobNumber;
 
-    @Size(max = 50)
-    private String reference;
+    @Size(max = 20)
+    private String status;
+
+    @Size(max = 20)
+    private String referenceNumber;
+
+    private LocalDateTime confirmedDate;
+
+    private int supplierId;
 
     @Size(max = 255)
-    private String description;
+    private String supplierName;
+
+    @Size(max = 20)
+    private String supplierInvoice;
+
+    private int employeeId;
+
+    @Size(max = 100)
+    private String employeeName;
+
+    @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL)
+    private List<EntryDetail> entryDetailList;
 
     @CreationTimestamp
     @Column(updatable = false)

@@ -2,6 +2,7 @@ package org.advance.glass.stock.model.db;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,38 +14,39 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "receipt_entry_detail")
+@Table(name = "entry_detail")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReceiptEntryDetail {
+public class EntryDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Reference to the header.
     @ManyToOne
-    @JoinColumn(name = "receipt_entry_id", nullable = false)
-    private ReceiptEntry receiptEntry;
+    @JoinColumn(name = "entry_id", nullable = false)
+    private Entry entry;
 
-    // Reference to the product in the stock.
     @ManyToOne
     @JoinColumn(name = "stock_id", nullable = false)
     private Stock stock;
 
-    // The quantity of this product being imported.
     @NotNull
     private int quantity;
 
-    // The cost per unit at the time of import.
+    @Size(max = 20)
+    private String unit;
+
     @Column(precision = 10, scale = 2)
     private BigDecimal unitCost;
 
-    // Total cost = unitCost * quantity.
     @Column(precision = 10, scale = 2)
     private BigDecimal totalCost;
+
+    @Size(max = 100)
+    private String description;
 
     @CreationTimestamp
     @Column(updatable = false)

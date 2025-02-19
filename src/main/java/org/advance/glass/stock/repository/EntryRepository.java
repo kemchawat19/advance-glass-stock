@@ -1,10 +1,11 @@
 package org.advance.glass.stock.repository;
 
-import org.advance.glass.stock.model.db.RequestEntryDetail;
+import org.advance.glass.stock.model.db.Entry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RequestEntryDetailRepository extends JpaRepository<RequestEntryDetail, Long> {
+public interface EntryRepository extends JpaRepository<Entry, Long> {
 
+    Entry findByEntryNumber(String entryNumber);
 }

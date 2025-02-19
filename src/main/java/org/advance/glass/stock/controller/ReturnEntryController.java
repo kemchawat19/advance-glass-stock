@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/receipt-entry")
-public class ReceiptEntryController {
+@RequestMapping("/return-entry")
+public class ReturnEntryController {
 
     private final EntryService entryService;
 
     @PostMapping
-    public ResponseEntity<Entry> createReceiptEntry(@RequestBody EntryReqDto dto) {
-        Entry created = entryService.createReceiptEntry(dto);
+    public ResponseEntity<Entry> createReturnEntry(@RequestBody EntryReqDto dto) {
+        Entry created = entryService.createReturnEntry(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 }

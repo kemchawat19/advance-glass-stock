@@ -18,6 +18,7 @@
             <Button text="Stock" onAction="#handleStock" styleClass="nav-button"/>
             <Button text="Receipt Entry" onAction="#handleReceiptEntry" styleClass="nav-button"/>
             <Button text="Request Entry" onAction="#handleRequestEntry" styleClass="nav-button"/>
+            <Button text="Return Entry" onAction="#handleRequestEntry" styleClass="nav-button"/>
             <Button text="Job" onAction="#handleJob" styleClass="nav-button"/>
             <Button text="Report" onAction="#handleReport" styleClass="nav-button"/>
             <!-- Master Files as a collapsible sub-menu -->

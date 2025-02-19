@@ -1,9 +1,9 @@
 package org.advance.glass.stock.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.advance.glass.stock.model.db.RequestEntry;
-import org.advance.glass.stock.model.request.CreateRequestEntryReqDto;
-import org.advance.glass.stock.service.RequestEntryService;
+import org.advance.glass.stock.model.db.Entry;
+import org.advance.glass.stock.model.request.EntryReqDto;
+import org.advance.glass.stock.service.EntryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/request-entry")
 public class RequestEntryController {
 
-    private final RequestEntryService requestEntryService;
+    private final EntryService entryService;
 
     @PostMapping
-    public ResponseEntity<RequestEntry> createRequest(@RequestBody CreateRequestEntryReqDto dto) {
-        RequestEntry created = requestEntryService.createRequestEntry(dto);
+    public ResponseEntity<Entry> createRequestEntry(@RequestBody EntryReqDto dto) {
+        Entry created = entryService.createRequestEntry(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}/confirm")
-    public ResponseEntity<RequestEntry> confirmRequest(@PathVariable Long id) {
-        RequestEntry confirmed = requestEntryService.confirmRequestEntry(id);
+    public ResponseEntity<Entry> confirmRequestEntry(@PathVariable Long id) {
+        Entry confirmed = entryService.confirmRequestEntry(id);
         return ResponseEntity.ok(confirmed);
     }
 }

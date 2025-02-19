@@ -5,8 +5,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import org.advance.glass.stock.model.db.ReceiptEntry;
-import org.advance.glass.stock.model.request.CreateReceiptEntryReqDto;
+import org.advance.glass.stock.model.db.Entry;
+import org.advance.glass.stock.model.request.EntryReqDto;
+import org.advance.glass.stock.model.request.EntryDetailDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,67 +22,68 @@ public class ReceiptController {
 
     // FXML-bound controls from receipt_scene.fxml
     @FXML
-    private TextField receiptNoField;
+    private TextField receiptNoField;       // For receipt number
     @FXML
-    private TextField supplierField;
+    private TextField supplierField;        // For supplier name
     @FXML
-    private DatePicker importDatePicker;
+    private DatePicker importDatePicker;    // For import date
     @FXML
-    private TableView<?> receiptDetailTable; // Optional: if you're showing details in a table
+    private TableView<?> receiptDetailTable; // Optional: for detail lines
     @FXML
     private Label statusLabel;
 
-    // This initialize method is automatically called after FXML loading.
     @FXML
     public void initialize() {
-        // Set default values if needed
+        // Set default status on initialization
         statusLabel.setText("Status: Waiting");
     }
 
-    // Called when the "Add Detail" button is pressed.
     @FXML
     public void handleAddReceiptDetail() {
-        // Here you would add logic to open a dialog or add a row to the receiptDetailTable.
+        // Logic to add detail lines (e.g., open a dialog or add to a TableView)
         System.out.println("Add Receipt Detail clicked");
     }
 
-    // Called when the "Create Receipt" button is pressed.
     @FXML
     public void handleCreateReceipt() {
-        // 1. Collect data from the UI fields.
+        // 1. Collect data from UI fields.
         String receiptNo = receiptNoField.getText();
         String supplier = supplierField.getText();
         LocalDate importDate = importDatePicker.getValue();
         LocalDateTime importDateTime = (importDate != null) ? LocalDateTime.of(importDate, LocalTime.now()) : null;
 
-        // 2. Build a DTO for the receipt entry.
-        // In this example, we use a single detail entry for demonstration.
-        CreateReceiptEntryReqDto dto = CreateReceiptEntryReqDto.builder()
-                .receiptNo(receiptNo)
-                .supplier(supplier)
-                .importDate(importDateTime)
+        // 2. Build the DTO for the receipt entry.
+        // Set the type to "RECEIPT". You can also use an enum.
+        EntryReqDto dto = EntryReqDto.builder()
+                .entryNumber(receiptNo)
+                .type("RECEIPT")
+                .entryDate(importDateTime)
                 .status("COMPLETED")
-                .details(java.util.Collections.singletonList(
-                        CreateReceiptEntryReqDto.Detail.builder()
-                                .stockId(1L)         // Replace with actual stock ID from detail dialog or table
-                                .quantity(100)       // Replace with the user-entered quantity
+                .supplierName(supplier)
+                // Optionally set other fields (supplierId, supplierInvoice, employee info)
+                // For details, we use a singleton list for demonstration.
+                .entryDetailDtoList(java.util.Collections.singletonList(
+                        EntryDetailDto.builder()
+                                .stockId(1L)         // Replace with actual stock ID from your detail input
+                                .quantity(100)       // Replace with the actual quantity
                                 .unitCost(new java.math.BigDecimal("5.00"))   // Replace with actual unit cost
                                 .totalCost(new java.math.BigDecimal("500.00"))  // Replace with calculated total cost
                                 .build()
                 ))
                 .build();
 
-        // 3. Prepare and make the REST call using RestTemplate.
+        // 3. Prepare and send the REST call using RestTemplate.
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<CreateReceiptEntryReqDto> requestEntity = new HttpEntity<>(dto, headers);
+        HttpEntity<EntryReqDto> requestEntity = new HttpEntity<>(dto, headers);
 
         try {
             // Adjust the endpoint URL as necessary.
-            ResponseEntity<ReceiptEntry> response = restTemplate.postForEntity("http://localhost:8080/receipt-entry", requestEntity, ReceiptEntry.class);
+            ResponseEntity<Entry> response = restTemplate.postForEntity(
+                    "http://localhost:8080/receipt-entry", requestEntity, Entry.class);
             if (response.getStatusCode().is2xxSuccessful()) {
-                ReceiptEntry createdEntry = response.getBody();
+                Entry createdEntry = response.getBody();
                 statusLabel.setText("Receipt created with ID: " + createdEntry.getId());
                 System.out.println("Created Receipt: " + createdEntry);
             } else {

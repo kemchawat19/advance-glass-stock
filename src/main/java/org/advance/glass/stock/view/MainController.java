@@ -33,6 +33,11 @@ public class MainController {
     }
 
     @FXML
+    public void handleReturnEntry() {
+        loadContent("/fxml/return_scene.fxml");
+    }
+
+    @FXML
     public void handleJob() {
         loadContent("/fxml/job_scene.fxml");
     }
