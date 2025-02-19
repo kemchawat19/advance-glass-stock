@@ -3,7 +3,9 @@ package org.advance.glass.stock.view;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+
 import java.io.IOException;
 
 public class MainController {
@@ -13,8 +15,49 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        // Optionally load a default view, e.g., Stock.
+        // Load a default view, e.g., Stock.
         loadContent("/fxml/stock_scene.fxml");
+
+        // When the contentPane is attached to a Scene, set up key event handling.
+        contentPane.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.setOnKeyPressed(event -> {
+                    KeyCode code = event.getCode();
+                    switch (code) {
+                        case DIGIT1:
+                            handleStock();
+                            break;
+                        case DIGIT2:
+                            handleReceiptEntry();
+                            break;
+                        case DIGIT3:
+                            handleRequestEntry();
+                            break;
+                        case DIGIT4:
+                            handleReturnEntry();
+                            break;
+                        case DIGIT5:
+                            handleJob();
+                            break;
+                        case DIGIT6:
+                            handleReport();
+                            break;
+                        case DIGIT7:
+                            handleMasterProduct();
+                            break;
+                        case DIGIT8:
+                            handleMasterCustomer();
+                            break;
+                        case DIGIT9:
+                            handleMasterSupplier();
+                            break;
+                        default:
+                            // Do nothing for other keys.
+                            break;
+                    }
+                });
+            }
+        });
     }
 
     @FXML
