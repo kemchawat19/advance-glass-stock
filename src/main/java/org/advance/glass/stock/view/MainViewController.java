@@ -8,7 +8,7 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
-public class MainController {
+public class MainViewController {
 
     @FXML
     private StackPane contentPane;
@@ -16,7 +16,7 @@ public class MainController {
     @FXML
     public void initialize() {
         // Load a default view, e.g., Stock.
-        loadContent("/fxml/stock_scene.fxml");
+        loadContent("/fxml/StockView.fxml");
 
         // When the contentPane is attached to a Scene, set up key event handling.
         contentPane.sceneProperty().addListener((observable, oldScene, newScene) -> {
@@ -62,47 +62,47 @@ public class MainController {
 
     @FXML
     public void handleStock() {
-        loadContent("/fxml/stock_scene.fxml");
+        loadContent("/fxml/StockView.fxml");
     }
 
     @FXML
     public void handleReceiptEntry() {
-        loadContent("/fxml/receipt_scene.fxml");
+        loadContent("/fxml/ReceiptView.fxml");
     }
 
     @FXML
     public void handleRequestEntry() {
-        loadContent("/fxml/request_scene.fxml");
+        loadContent("/fxml/RequestView.fxml");
     }
 
     @FXML
     public void handleReturnEntry() {
-        loadContent("/fxml/return_scene.fxml");
+        loadContent("/fxml/ReturnView.fxml");
     }
 
     @FXML
     public void handleJob() {
-        loadContent("/fxml/job_scene.fxml");
+        loadContent("/fxml/JobView.fxml");
     }
 
     @FXML
     public void handleReport() {
-        loadContent("/fxml/report_scene.fxml");
+        loadContent("/fxml/ReportView.fxml");
     }
 
     @FXML
     public void handleMasterProduct() {
-        loadContent("/fxml/master_product.fxml");
+        loadContent("/fxml/MasterProductView.fxml");
     }
 
     @FXML
     public void handleMasterCustomer() {
-        loadContent("/fxml/master_customer.fxml");
+        loadContent("/fxml/MasterCustomerView.fxml");
     }
 
     @FXML
     public void handleMasterSupplier() {
-        loadContent("/fxml/master_supplier.fxml");
+        loadContent("/fxml/MasterSupplierView.fxml");
     }
 
     private void loadContent(String fxmlPath) {

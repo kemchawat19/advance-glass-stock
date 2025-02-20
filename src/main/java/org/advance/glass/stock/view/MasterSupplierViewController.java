@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class MasterSupplierController {
+public class MasterSupplierViewController {
 
     @FXML
     private TextField supplierNameField;

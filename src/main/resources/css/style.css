@@ -1,18 +1,7 @@
+/* Global styling */
 .root {
     -fx-font-family: "Segoe UI", sans-serif;
-    -fx-font-size: 14px;
     -fx-background-color: #f5f5f5;
-}
-
-.section-title {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
-}
-
-.dashboard-value {
-    -fx-font-size: 16px;
-    -fx-text-fill: #34495e;
 }
 
 /* Header */
@@ -27,6 +16,11 @@
 }
 
 /* Center Content */
+.section-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
 .welcome-label {
     -fx-text-fill: #34495E;
     -fx-font-size: 18px;
@@ -59,16 +53,25 @@
     -fx-text-fill: #7f8c8d;
 }
 
-.nav-button-small {
-    -fx-background-color: transparent;
-    -fx-text-fill: #ecf0f1;       /* Light text color for contrast on dark background */
-    -fx-font-size: 12px;         /* Smaller font size */
-    -fx-padding: 5 10 5 10;      /* Smaller padding */
-    -fx-border-radius: 3;        /* Slight rounding of corners */
-    -fx-background-radius: 3;
-    -fx-cursor: hand;           /* Show pointer on hover */
+/* Side Navigation */
+.side-nav {
+    -fx-background-color: #34495e;
+    -fx-pref-width: 200px;
 }
-
-.nav-button-small:hover {
-    -fx-background-color: #3c597a;  /* Subtle hover background */
+.nav-header {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10 0 10 0;
+    -fx-alignment: center;
+}
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 8 10 8 10;
+}
+.nav-button:hover {
+    -fx-background-color: #3c597a;
 }

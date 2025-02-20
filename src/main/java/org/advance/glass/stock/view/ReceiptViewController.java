@@ -18,9 +18,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class ReceiptController {
+public class ReceiptViewController {
 
-    // FXML-bound controls from receipt_scene.fxml
+    // FXML-bound controls from ReceiptView.fxml
     @FXML
     private TextField receiptNoField;       // For receipt number
     @FXML

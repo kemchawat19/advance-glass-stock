@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.Objects;
+
 public class MainApp extends javafx.application.Application {
 
     private ConfigurableApplicationContext springContext;
@@ -18,8 +20,11 @@ public class MainApp extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/main_layout.fxml"));
-        Scene scene = new Scene(root, 800, 600);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(
+                getClass().getResource("/fxml/MainView.fxml"),
+                "MainView.fxml resource not found"
+        ));
+        Scene scene = new Scene(root, 1024, 768);
         primaryStage.setTitle("Inventory Management System");
         primaryStage.setScene(scene);
         primaryStage.show();

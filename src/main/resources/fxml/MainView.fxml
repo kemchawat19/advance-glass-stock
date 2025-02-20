@@ -7,8 +7,8 @@
 <?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.advance.glass.stock.view.MainController"
-            stylesheets="@/css/dashboard.css">
+            fx:controller="org.advance.glass.stock.view.MainViewController"
+            stylesheets="@/css/style.css">
     <!-- Side Navigation Panel -->
     <left>
         <VBox spacing="10" styleClass="side-nav">

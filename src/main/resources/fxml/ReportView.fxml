@@ -6,12 +6,11 @@
 
 <VBox xmlns="http://javafx.com/javafx/23.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.advance.glass.stock.view.JobController"
+      fx:controller="org.advance.glass.stock.view.ReportViewController"
       spacing="20" alignment="CENTER">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
-    <!-- Added fx:id="statusLabel" so it can be injected in JobController -->
-    <Label fx:id="statusLabel" text="Job Management" styleClass="section-title"/>
-    <!-- Add job management components as needed -->
+    <Label fx:id="statusLabel" text="Report" styleClass="section-title"/>
+    <!-- Add report components as needed -->
 </VBox>

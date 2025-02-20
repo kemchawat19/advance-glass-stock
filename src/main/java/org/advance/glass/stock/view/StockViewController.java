@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
 
-public class StockController {
+public class StockViewController {
 
     @FXML
     private TableView<?> stockTable; // Replace '?' with your Stock model class

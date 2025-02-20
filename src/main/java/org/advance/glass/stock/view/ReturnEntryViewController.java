@@ -18,9 +18,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class ReturnEntryController {
+public class ReturnEntryViewController {
 
-    // FXML-bound controls from return_scene.fxml
+    // FXML-bound controls from ReturnView.fxml
     @FXML
     private TextField returnNoField;      // Similar to receiptNoField, used for the return entry number.
     @FXML

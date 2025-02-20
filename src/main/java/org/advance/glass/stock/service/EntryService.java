@@ -1,6 +1,7 @@
 package org.advance.glass.stock.service;
 
 import lombok.RequiredArgsConstructor;
+import org.advance.glass.stock.constant.Type;
 import org.advance.glass.stock.model.db.Entry;
 import org.advance.glass.stock.model.db.EntryDetail;
 import org.advance.glass.stock.model.db.Stock;
@@ -25,7 +26,7 @@ public class EntryService {
     @Transactional
     public Entry createReceiptEntry(EntryReqDto dto) {
         // Set type explicitly.
-        dto.setType("RECEIPT");
+        dto.setType(Type.RECEIPT.name());
         Entry entry = mapEntry(dto);
         Entry savedEntry = entryRepository.save(entry);
         // For receipts, add quantities (multiplier +1)
@@ -36,7 +37,7 @@ public class EntryService {
     @Transactional
     public Entry createRequestEntry(EntryReqDto dto) {
         // Set type explicitly.
-        dto.setType("REQUEST");
+        dto.setType(Type.REQUEST.name());
         Entry entry = mapEntry(dto);
         Entry savedEntry = entryRepository.save(entry);
         // For requests, subtract quantities (multiplier -1)
@@ -50,7 +51,7 @@ public class EntryService {
         Entry requestEntry = entryRepository.findById(requestEntryId)
                 .orElseThrow(() -> new RuntimeException("Request entry not found for ID: " + requestEntryId));
 
-        if (!"REQUEST".equalsIgnoreCase(requestEntry.getType())) {
+        if (!Type.REQUEST.name().equalsIgnoreCase(requestEntry.getType())) {
             throw new RuntimeException("Entry with ID " + requestEntryId + " is not a request entry.");
         }
 
@@ -66,7 +67,7 @@ public class EntryService {
     @Transactional
     public Entry createReturnEntry(EntryReqDto dto) {
         // Set type explicitly.
-        dto.setType("RETURN");
+        dto.setType(Type.RETURN.name());
         Entry entry = mapEntry(dto);
         Entry savedEntry = entryRepository.save(entry);
         // For receipts, add quantities (multiplier +1)

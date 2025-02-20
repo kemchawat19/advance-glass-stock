@@ -3,7 +3,7 @@ package org.advance.glass.stock.view;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class JobController {
+public class JobViewController {
 
     @FXML
     private Label statusLabel;
