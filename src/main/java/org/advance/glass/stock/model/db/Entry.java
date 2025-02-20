@@ -42,7 +42,7 @@ public class Entry {
     @Size(max = 20)
     private String jobNumber;
 
-    @Size(max = 20)
+    @Size(max = 10)
     private String status;
 
     @Size(max = 20)

@@ -24,10 +24,10 @@ public class EntryService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public Entry createReceiptEntry(EntryReqDto dto) {
+    public Entry createReceiptEntry(EntryReqDto entryReqDto) {
         // Set type explicitly.
-        dto.setType(Type.RECEIPT.name());
-        Entry entry = mapEntry(dto);
+        entryReqDto.setType(Type.RECEIPT.name());
+        Entry entry = mapEntry(entryReqDto);
         Entry savedEntry = entryRepository.save(entry);
         // For receipts, add quantities (multiplier +1)
         updateStock(savedEntry, +1);
@@ -35,10 +35,10 @@ public class EntryService {
     }
 
     @Transactional
-    public Entry createRequestEntry(EntryReqDto dto) {
+    public Entry createRequestEntry(EntryReqDto entryReqDto) {
         // Set type explicitly.
-        dto.setType(Type.REQUEST.name());
-        Entry entry = mapEntry(dto);
+        entryReqDto.setType(Type.REQUEST.name());
+        Entry entry = mapEntry(entryReqDto);
         Entry savedEntry = entryRepository.save(entry);
         // For requests, subtract quantities (multiplier -1)
         updateStock(savedEntry, -1);
@@ -65,10 +65,10 @@ public class EntryService {
     }
 
     @Transactional
-    public Entry createReturnEntry(EntryReqDto dto) {
+    public Entry createReturnEntry(EntryReqDto entryReqDto) {
         // Set type explicitly.
-        dto.setType(Type.RETURN.name());
-        Entry entry = mapEntry(dto);
+        entryReqDto.setType(Type.RETURN.name());
+        Entry entry = mapEntry(entryReqDto);
         Entry savedEntry = entryRepository.save(entry);
         // For receipts, add quantities (multiplier +1)
         updateStock(savedEntry, +1);
@@ -78,20 +78,20 @@ public class EntryService {
     // --- Helper Methods ---
 
     // Maps the unified DTO to an Entry entity.
-    private Entry mapEntry(EntryReqDto dto) {
+    private Entry mapEntry(EntryReqDto entryReqDto) {
         return Entry.builder()
-                .entryNumber(dto.getEntryNumber())
-                .type(dto.getType())
-                .entryDate(dto.getEntryDate())
-                .jobNumber(dto.getJobNumber())
-                .status(dto.getStatus())
-                .referenceNumber(dto.getReferenceNumber())
-                .supplierId(dto.getSupplierId() != null ? dto.getSupplierId() : 0)
-                .supplierName(dto.getSupplierName())
-                .supplierInvoice(dto.getSupplierInvoice())
-                .employeeId(dto.getEmployeeId() != null ? dto.getEmployeeId() : 0)
-                .employeeName(dto.getEmployeeName())
-                .entryDetailList(mapEntryDetailList(dto.getEntryDetailDtoList()))
+                .entryNumber(entryReqDto.getEntryNumber())
+                .type(entryReqDto.getType())
+                .entryDate(entryReqDto.getEntryDate())
+                .jobNumber(entryReqDto.getJobNumber())
+                .status(entryReqDto.getStatus())
+                .referenceNumber(entryReqDto.getReferenceNumber())
+                .supplierId(entryReqDto.getSupplierId() != null ? entryReqDto.getSupplierId() : 0)
+                .supplierName(entryReqDto.getSupplierName())
+                .supplierInvoice(entryReqDto.getSupplierInvoice())
+                .employeeId(entryReqDto.getEmployeeId() != null ? entryReqDto.getEmployeeId() : 0)
+                .employeeName(entryReqDto.getEmployeeName())
+                .entryDetailList(mapEntryDetailList(entryReqDto.getEntryDetailDtoList()))
                 .build();
     }
 
@@ -99,13 +99,13 @@ public class EntryService {
     private List<EntryDetail> mapEntryDetailList(List<EntryDetailDto> entryDetailDtoList) {
         if (entryDetailDtoList == null) return null;
         return entryDetailDtoList.stream()
-                .map(dto -> EntryDetail.builder()
-                        .stock(Stock.builder().id(dto.getStockId()).build())
-                        .quantity(dto.getQuantity())
-                        .unit(dto.getUnit())
-                        .unitCost(dto.getUnitCost())
-                        .totalCost(dto.getTotalCost())
-                        .description(dto.getDescription())
+                .map(entryDetailDto -> EntryDetail.builder()
+                        .stock(Stock.builder().id(entryDetailDto.getStockId()).build())
+                        .quantity(entryDetailDto.getQuantity())
+                        .unit(entryDetailDto.getUnit())
+                        .unitCost(entryDetailDto.getUnitCost())
+                        .totalCost(entryDetailDto.getTotalCost())
+                        .description(entryDetailDto.getDescription())
                         .build())
                 .collect(Collectors.toList());
     }

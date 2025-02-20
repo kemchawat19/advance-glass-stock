@@ -21,11 +21,12 @@ import java.time.LocalDateTime;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
+    @SequenceGenerator(name = "product_seq", sequenceName = "PRODUCT_SEQ", allocationSize = 1)
     private Long id;
 
     @NotNull
-    @Size(max = 4)
+    @Size(max = 6)
     @Column(name = "product_code", nullable = false, unique = true)
     private String productCode;
 
@@ -41,6 +42,9 @@ public class Product {
     @Size(max = 50)
     @Column(name = "product_unit")
     private String productUnit;
+
+    @Size(max = 10)
+    private String status;
 
     @CreationTimestamp
     @Column(updatable = false)
