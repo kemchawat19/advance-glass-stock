@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.advance.glass.stock.view.MainViewController"
             stylesheets="@/css/style.css">
+
     <!-- Side Navigation Panel -->
     <left>
         <VBox spacing="10" styleClass="side-nav">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button text="Stock" onAction="#handleStock" styleClass="nav-button"/>
-            <Button text="Receipt Entry" onAction="#handleReceiptEntry" styleClass="nav-button"/>
-            <Button text="Request Entry" onAction="#handleRequestEntry" styleClass="nav-button"/>
-            <Button text="Return Entry" onAction="#handleRequestEntry" styleClass="nav-button"/>
-            <Button text="Job" onAction="#handleJob" styleClass="nav-button"/>
-            <Button text="Report" onAction="#handleReport" styleClass="nav-button"/>
+
+            <!-- Main Navigation -->
+            <Button text="📦 Stock" onAction="#handleStock" styleClass="nav-button"/>
+            <Button text="🧾 Receipt Entry" onAction="#handleReceiptEntry" styleClass="nav-button"/>
+            <Button text="📑 Request Entry" onAction="#handleRequestEntry" styleClass="nav-button"/>
+            <Button text="🔄 Return Entry" onAction="#handleReturnEntry" styleClass="nav-button"/>
+            <Button text="💼 Job" onAction="#handleJob" styleClass="nav-button"/>
+            <Button text="📊 Report" onAction="#handleReport" styleClass="nav-button"/>
+
             <!-- Master Files as a collapsible sub-menu -->
-            <TitledPane text="Master Files" expanded="false">
+            <TitledPane text="📁 Master Files" expanded="false" styleClass="titled-pane">
                 <content>
                     <VBox spacing="5">
                         <padding>
                             <Insets top="5" right="5" bottom="5" left="5"/>
                         </padding>
-                        <Button text="Product" onAction="#handleMasterProduct" styleClass="nav-button-small"/>
-                        <Button text="Customer" onAction="#handleMasterCustomer" styleClass="nav-button-small"/>
-                        <Button text="Supplier" onAction="#handleMasterSupplier" styleClass="nav-button-small"/>
+                        <Button text="📦 Product" onAction="#handleMasterProduct" styleClass="nav-button-small"/>
+                        <Button text="👤 Customer" onAction="#handleMasterCustomer" styleClass="nav-button-small"/>
+                        <Button text="🚚 Supplier" onAction="#handleMasterSupplier" styleClass="nav-button-small"/>
                     </VBox>
                 </content>
             </TitledPane>

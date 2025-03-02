@@ -1,77 +1,138 @@
-/* Global styling */
+/* 🌍 Global Styling */
 .root {
     -fx-font-family: "Segoe UI", sans-serif;
-    -fx-background-color: #f5f5f5;
+    -fx-background-color: #F8F8F8; /* Light Gray */
 }
 
-/* Header */
-.header {
-    -fx-background-color: #2C3E50;
-    -fx-padding: 15;
-}
-.header-title {
-    -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-}
-
-/* Center Content */
-.section-title {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
-}
-.welcome-label {
-    -fx-text-fill: #34495E;
-    -fx-font-size: 18px;
-}
-.modern-textfield {
-    -fx-background-radius: 5;
-    -fx-border-radius: 5;
-    -fx-border-color: #bdc3c7;
-    -fx-border-width: 1;
-    -fx-padding: 5 10;
-}
-.modern-button {
-    -fx-background-color: #3498DB;
-    -fx-text-fill: white;
-    -fx-background-radius: 5;
-    -fx-padding: 8 15;
-    -fx-cursor: hand;
-}
-.modern-button:hover {
-    -fx-background-color: #2980B9;
-}
-
-/* Status Bar */
-.status-bar {
-    -fx-background-color: #ecf0f1;
-    -fx-border-color: #bdc3c7;
-    -fx-border-width: 1 0 0 0;
-}
-.status-text {
-    -fx-text-fill: #7f8c8d;
-}
-
-/* Side Navigation */
+/* 🔹 Sidebar Navigation */
 .side-nav {
-    -fx-background-color: #34495e;
-    -fx-pref-width: 200px;
+    -fx-background-color: #E6E8EC; /* Light Sidebar */
+    -fx-pref-width: 220px;
 }
 .nav-header {
-    -fx-text-fill: white;
+    -fx-text-fill: #1F2937;
     -fx-font-size: 16px;
-    -fx-padding: 10 0 10 0;
+    -fx-padding: 12px 0;
     -fx-alignment: center;
+    -fx-font-weight: bold;
 }
+
+/* 🔘 Sidebar Buttons */
 .nav-button {
     -fx-background-color: transparent;
-    -fx-text-fill: white;
+    -fx-text-fill: #1F2937;
     -fx-font-size: 14px;
     -fx-cursor: hand;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 8 10 8 10;
+    -fx-padding: 10px 15px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-pref-width: 180px;
+    -fx-font-weight: 500;
 }
 .nav-button:hover {
-    -fx-background-color: #3c597a;
+    -fx-background-color: #B4B5B8; /* White Gray Hover */
+    -fx-transition: background-color 0.2s ease-in-out;
+}
+/* Active State (Clicked Button) */
+.nav-button:focused, .nav-button:pressed {
+    -fx-background-color: #FFFFFF; /* White */
+    -fx-text-fill: #1F2937; /* Dark Text */
+    -fx-font-weight: bold;
+    -fx-border-color: #D1D5DB; /* Light Gray Border */
+    -fx-border-width: 1px;
+}
+
+/* 🔽 Master Files Collapsible Section */
+.titled-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0px;
+}
+.titled-pane > .title {
+    -fx-background-color: #E6E8EC; /* Light Gray Background */
+    -fx-text-fill: #1F2937; /* Dark Gray Text */
+    -fx-font-weight: bold;
+    -fx-padding: 8px 10px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+.titled-pane > .title:hover {
+    -fx-background-color: #B4B5B8; /* Slight Hover Effect */
+    /*-fx-background-color: #FFFFFF;*/
+}
+
+/* 🏠 Submenu Box */
+.titled-pane > .content {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: #E0E0E0; /* Light border */
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 2); /* Soft shadow */
+}
+
+/* 📂 Submenu Buttons */
+.nav-button-small {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1F2937;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 8px 15px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+.nav-button-small:hover {
+    -fx-background-color: #F0F2F5; /* Soft Gray */
+}
+
+/* ✅ Modern Buttons */
+.modern-button {
+    -fx-background-color: #366EF4; /* Primary Blue */
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.modern-button:hover {
+    -fx-background-color: #2B5ED6;
+}
+
+/* 📊 Table Styling */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #BDC3C7;
+    -fx-border-radius: 5px;
+}
+.table-view .column-header {
+    -fx-background-color: #ECF0F1;
+    -fx-text-fill: #2C3E50;
+    -fx-font-weight: bold;
+}
+.table-row-cell:hover {
+    -fx-background-color: #F0F5FF;
+}
+
+/* ⚡ Status Bar */
+.status-bar {
+    -fx-background-color: #ECF0F1;
+    -fx-border-color: #BDC3C7;
+    -fx-border-width: 1px 0px 0px 0px;
+}
+.status-text {
+    -fx-text-fill: #7F8C8D;
+}
+
+/* 🟢 Stock Status Colors */
+.status-in-stock {
+    -fx-text-fill: #28C76F; /* Green */
+}
+.status-low-stock {
+    -fx-text-fill: #FFB400; /* Yellow */
+}
+.status-out-of-stock {
+    -fx-text-fill: #EA5455; /* Red */
 }
