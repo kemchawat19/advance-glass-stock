@@ -8,8 +8,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.advance.glass.stock.model.db.Product;
-import org.advance.glass.stock.service.ProductService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MasterProductViewController {
@@ -30,22 +32,12 @@ public class MasterProductViewController {
     @FXML
     private TextField productUnitField;
 
-    private ProductService productService; // Remove final (will be set manually)
-
-    // ✅ Fix: No-Arg Constructor for JavaFX
-    public MasterProductViewController() {
-    }
-
-    // ✅ Manually Inject Service After Initialization
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-        loadProductData(); // Load data after setting service
-    }
+    private final String API_URL = "http://localhost:8080/api/products";  // ✅ API Endpoint
 
     @FXML
     public void initialize() {
         setupTable();
-        loadProductData();
+        fetchProductsFromApi();
     }
 
     private void setupTable() {
@@ -63,16 +55,6 @@ public class MasterProductViewController {
         productTable.getColumns().addAll(productNameColumn, productGroupColumn, productUnitColumn);
     }
 
-    private void loadProductData() {
-        System.out.println("productService = " + productService);
-        if (productService != null) {  // Prevent NullPointerException
-            List<Product> productList = productService.getAllProducts();
-            System.out.println("productList = " + productList);
-            ObservableList<Product> productObservableList = FXCollections.observableArrayList(productList);
-            productTable.setItems(productObservableList);
-        }
-    }
-
     @FXML
     public void handleUpdateProduct() {
         String productName = productNameField.getText();
@@ -82,5 +64,23 @@ public class MasterProductViewController {
         System.out.println("Updating Product: " + productName + ", " + productGroup + ", " + productUnit);
 
         // TODO: Call ProductService to update database
+    }
+
+    private void fetchProductsFromApi() {
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<Product[]> response = restTemplate.getForEntity(API_URL, Product[].class);
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                List<Product> productList = Arrays.asList(response.getBody());
+                ObservableList<Product> productObservableList = FXCollections.observableArrayList(productList);
+                productTable.setItems(productObservableList);
+            } else {
+                System.out.println("Failed to fetch products. Status: " + response.getStatusCode());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Error fetching products: " + ex.getMessage());
+        }
     }
 }
