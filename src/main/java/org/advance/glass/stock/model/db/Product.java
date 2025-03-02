@@ -25,11 +25,6 @@ public class Product {
     private Long id;
 
     @NotNull
-    @Size(max = 6)
-    @Column(name = "product_code", nullable = false, unique = true)
-    private String productCode;
-
-    @NotNull
     @Size(max = 255)
     @Column(name = "product_name", nullable = false)
     private String productName;

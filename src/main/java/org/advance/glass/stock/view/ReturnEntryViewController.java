@@ -65,7 +65,6 @@ public class ReturnEntryViewController {
                 // Add detail lines. For demonstration, we use a singleton list.
                 .entryDetailDtoList(java.util.Collections.singletonList(
                         EntryDetailDto.builder()
-                                .productCode("T012")        // Replace with actual stock ID
                                 .quantity(1)         // Quantity returned; calculated as (requested - used)
                                 .unit("pcs")
                                 .unitCost(new java.math.BigDecimal("2.50"))

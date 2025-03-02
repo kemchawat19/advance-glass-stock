@@ -104,7 +104,7 @@ public class EntryService {
         return entryDetailDtoList.stream()
                 .map(entryDetailDto -> EntryDetail.builder()
                         .entry(entry)
-                        .stock(getOrCreateStock(productService.getProductIdByProductCode(entryDetailDto.getProductCode())))
+                        .stock(getOrCreateStock(entryDetailDto.getProductId()))
                         .quantity(entryDetailDto.getQuantity())
                         .unit(entryDetailDto.getUnit())
                         .unitCost(entryDetailDto.getUnitCost())

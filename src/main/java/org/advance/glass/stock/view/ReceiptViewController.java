@@ -65,7 +65,6 @@ public class ReceiptViewController {
                 // For details, we use a singleton list for demonstration.
                 .entryDetailDtoList(java.util.Collections.singletonList(
                         EntryDetailDto.builder()
-                                .productCode("T012")         // Replace with actual stock ID from your detail input
                                 .quantity(100)       // Replace with the actual quantity
                                 .unitCost(new java.math.BigDecimal("5.00"))   // Replace with actual unit cost
                                 .totalCost(new java.math.BigDecimal("500.00"))  // Replace with calculated total cost

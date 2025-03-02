@@ -1,7 +1,6 @@
 -- Create Product Table
 CREATE TABLE IF NOT EXISTS product (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    product_code VARCHAR(6) NOT NULL UNIQUE,
     product_name VARCHAR(255) NOT NULL,
     product_group VARCHAR(100),
     product_unit VARCHAR(50),

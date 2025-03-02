@@ -1,6 +1,5 @@
 package org.advance.glass.stock.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.advance.glass.stock.model.db.Product;
 import org.advance.glass.stock.model.request.ProductReqDto;
@@ -20,7 +19,6 @@ public class ProductService {
     @Transactional
     public Product createProduct(ProductReqDto productReqDto) {
         Product product = Product.builder()
-                .productCode(productReqDto.getProductCode())
                 .productName(productReqDto.getProductName())
                 .productGroup(productReqDto.getProductGroup())
                 .productUnit(productReqDto.getProductUnit())
@@ -30,10 +28,10 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    // Retrieve a product by its productCode.
-    public Product getProductByProductCode(String productCode) {
-        return productRepository.findByProductCode(productCode)
-                .orElseThrow(() -> new RuntimeException("Product not found for productCode: " + productCode));
+    // Retrieve a product by its productId.
+    public Product getProductById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found for productId: " + productId));
     }
 
     // Retrieve all products.
@@ -43,9 +41,8 @@ public class ProductService {
 
     // Update an existing product using productCode as the identifier.
     @Transactional
-    public Product updateProduct(String productCode, ProductReqDto productReqDto) {
-        Product product = getProductByProductCode(productCode);
-        product.setProductCode(productReqDto.getProductCode());
+    public Product updateProduct(Long productId, ProductReqDto productReqDto) {
+        Product product = getProductById(productId);
         product.setProductName(productReqDto.getProductName());
         product.setProductGroup(productReqDto.getProductGroup());
         product.setProductUnit(productReqDto.getProductUnit());
@@ -53,10 +50,10 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    // Delete a product by its productCode.
+    // Delete a product by its productId.
     @Transactional
-    public void deleteProduct(String productCode) {
-        Product product = getProductByProductCode(productCode);
+    public void deleteProduct(Long productId) {
+        Product product = getProductById(productId);
         product.setStatus("INACTIVE");
         productRepository.save(product);
     }
@@ -64,11 +61,5 @@ public class ProductService {
     // Search products by productName (wildcard, case-insensitive)
     public List<Product> searchProductsByName(String productName) {
         return productRepository.findByProductNameContainingIgnoreCase(productName);
-    }
-
-    public Long getProductIdByProductCode(String productCode) {
-        return productRepository.findByProductCode(productCode)
-                .map(Product::getId)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found with code: " + productCode));
     }
 }
