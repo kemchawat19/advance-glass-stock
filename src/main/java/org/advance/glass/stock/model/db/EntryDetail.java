@@ -45,9 +45,6 @@ public class EntryDetail {
     @Column(precision = 10, scale = 2)
     private BigDecimal totalCost;
 
-    @Size(max = 100)
-    private String description;
-
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createTimeStamp;

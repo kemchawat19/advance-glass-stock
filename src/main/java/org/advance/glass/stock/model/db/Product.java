@@ -21,8 +21,7 @@ import java.time.LocalDateTime;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
-    @SequenceGenerator(name = "product_seq", sequenceName = "PRODUCT_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

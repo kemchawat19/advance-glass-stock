@@ -1,5 +1,6 @@
 package org.advance.glass.stock.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.advance.glass.stock.model.db.Product;
 import org.advance.glass.stock.model.request.ProductReqDto;
@@ -56,11 +57,18 @@ public class ProductService {
     @Transactional
     public void deleteProduct(String productCode) {
         Product product = getProductByProductCode(productCode);
-        productRepository.delete(product);
+        product.setStatus("INACTIVE");
+        productRepository.save(product);
     }
 
     // Search products by productName (wildcard, case-insensitive)
     public List<Product> searchProductsByName(String productName) {
         return productRepository.findByProductNameContainingIgnoreCase(productName);
+    }
+
+    public Long getProductIdByProductCode(String productCode) {
+        return productRepository.findByProductCode(productCode)
+                .map(Product::getId)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with code: " + productCode));
     }
 }

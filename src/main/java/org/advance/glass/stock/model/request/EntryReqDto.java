@@ -18,7 +18,7 @@ public class EntryReqDto {
     private String type;             // E.g., "RECEIPT", "REQUEST", "RETURN"
     private LocalDateTime entryDate; // When the entry occurred
     private String jobNumber;        // Optional job number
-    private String status;           // E.g., "PENDING", "COMPLETED"
+    private String processStatus;           // E.g., "PENDING", "COMPLETED"
     private String referenceNumber;  // External or internal reference
 
     // Fields that may be used for certain entry types
@@ -27,6 +27,7 @@ public class EntryReqDto {
     private String supplierInvoice;  // E.g., for receipts
     private Integer employeeId;      // Employee processing the entry
     private String employeeName;
+    private String description;
 
     // List of line items for the entry
     private List<EntryDetailDto> entryDetailDtoList;

@@ -5,6 +5,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import org.advance.glass.stock.constant.Type;
 import org.advance.glass.stock.model.db.Entry;
 import org.advance.glass.stock.model.request.EntryDetailDto;
 import org.advance.glass.stock.model.request.EntryReqDto;
@@ -57,14 +58,14 @@ public class ReturnEntryViewController {
         // For a return entry, we set type to "RETURN".
         EntryReqDto dto = EntryReqDto.builder()
                 .entryNumber(returnNo)
-                .type("RETURN")  // Ensures the service knows this is a return entry.
+                .type(Type.RETURN.name())  // Ensures the service knows this is a return entry.
                 .entryDate(returnDateTime)
-                .status("COMPLETED")  // Or use "PENDING" based on your workflow.
+                .processStatus("COMPLETED")  // Or use "PENDING" based on your workflow.
                 .referenceNumber(reason)  // You could use the reason as a reference or add a separate field if desired.
                 // Add detail lines. For demonstration, we use a singleton list.
                 .entryDetailDtoList(java.util.Collections.singletonList(
                         EntryDetailDto.builder()
-                                .stockId(1L)         // Replace with actual stock ID
+                                .productCode("T012")        // Replace with actual stock ID
                                 .quantity(1)         // Quantity returned; calculated as (requested - used)
                                 .unit("pcs")
                                 .unitCost(new java.math.BigDecimal("2.50"))

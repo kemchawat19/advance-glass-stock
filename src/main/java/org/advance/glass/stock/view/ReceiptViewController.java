@@ -5,9 +5,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import org.advance.glass.stock.constant.Type;
 import org.advance.glass.stock.model.db.Entry;
-import org.advance.glass.stock.model.request.EntryReqDto;
 import org.advance.glass.stock.model.request.EntryDetailDto;
+import org.advance.glass.stock.model.request.EntryReqDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -56,15 +57,15 @@ public class ReceiptViewController {
         // Set the type to "RECEIPT". You can also use an enum.
         EntryReqDto dto = EntryReqDto.builder()
                 .entryNumber(receiptNo)
-                .type("RECEIPT")
+                .type(Type.RECEIPT.name())
                 .entryDate(importDateTime)
-                .status("COMPLETED")
+                .processStatus("COMPLETED")
                 .supplierName(supplier)
                 // Optionally set other fields (supplierId, supplierInvoice, employee info)
                 // For details, we use a singleton list for demonstration.
                 .entryDetailDtoList(java.util.Collections.singletonList(
                         EntryDetailDto.builder()
-                                .stockId(1L)         // Replace with actual stock ID from your detail input
+                                .productCode("T012")         // Replace with actual stock ID from your detail input
                                 .quantity(100)       // Replace with the actual quantity
                                 .unitCost(new java.math.BigDecimal("5.00"))   // Replace with actual unit cost
                                 .totalCost(new java.math.BigDecimal("500.00"))  // Replace with calculated total cost

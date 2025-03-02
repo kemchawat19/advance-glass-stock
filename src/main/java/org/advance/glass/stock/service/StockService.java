@@ -17,10 +17,6 @@ public class StockService {
         return stockRepository.findAll();
     }
 
-    public Stock getStockByProductCode(String productCode) {
-        return stockRepository.findByProductCode(productCode);
-    }
-
     public Stock saveStock(Stock stock) {
         return stockRepository.save(stock);
     }

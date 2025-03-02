@@ -15,8 +15,14 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
+#      ddl-auto: update
     show-sql: true
   h2:
     console:
       enabled: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:script/schema.sql
+#      data-locations: classpath:script/data.sql

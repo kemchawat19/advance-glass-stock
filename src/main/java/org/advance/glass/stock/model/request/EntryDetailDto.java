@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EntryDetailDto {
-    private Long stockId;         // Reference to a product in stock
+    private String productCode;         // Reference to a product in stock
     private int quantity;         // Quantity of product in this line
     private String unit;          // Unit of measure, e.g., "pcs", "kg"
     private BigDecimal unitCost;  // Cost per unit

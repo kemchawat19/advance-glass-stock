@@ -1,9 +1,11 @@
 package org.advance.glass.stock.service;
 
 import lombok.RequiredArgsConstructor;
+import org.advance.glass.stock.constant.ProcessStatus;
 import org.advance.glass.stock.constant.Type;
 import org.advance.glass.stock.model.db.Entry;
 import org.advance.glass.stock.model.db.EntryDetail;
+import org.advance.glass.stock.model.db.Product;
 import org.advance.glass.stock.model.db.Stock;
 import org.advance.glass.stock.model.request.EntryDetailDto;
 import org.advance.glass.stock.model.request.EntryReqDto;
@@ -22,31 +24,33 @@ public class EntryService {
 
     private final EntryRepository entryRepository;
     private final StockRepository stockRepository;
+    private final ProductService productService;
 
     @Transactional
-    public Entry createReceiptEntry(EntryReqDto entryReqDto) {
+    public void createReceiptEntry(EntryReqDto entryReqDto) {
         // Set type explicitly.
         entryReqDto.setType(Type.RECEIPT.name());
         Entry entry = mapEntry(entryReqDto);
+        entry.setEntryNumber(generateNextEntryNumber(Type.RECEIPT.name()));
         Entry savedEntry = entryRepository.save(entry);
         // For receipts, add quantities (multiplier +1)
         updateStock(savedEntry, +1);
-        return savedEntry;
     }
 
     @Transactional
-    public Entry createRequestEntry(EntryReqDto entryReqDto) {
+    public void createRequestEntry(EntryReqDto entryReqDto) {
         // Set type explicitly.
         entryReqDto.setType(Type.REQUEST.name());
+        entryReqDto.setProcessStatus(ProcessStatus.PENDING.name());
         Entry entry = mapEntry(entryReqDto);
+        entry.setEntryNumber(generateNextEntryNumber(Type.REQUEST.name()));
         Entry savedEntry = entryRepository.save(entry);
         // For requests, subtract quantities (multiplier -1)
         updateStock(savedEntry, -1);
-        return savedEntry;
     }
 
     @Transactional
-    public Entry confirmRequestEntry(Long requestEntryId) {
+    public void confirmRequestEntry(Long requestEntryId) {
         // Retrieve and verify the entry.
         Entry requestEntry = entryRepository.findById(requestEntryId)
                 .orElseThrow(() -> new RuntimeException("Request entry not found for ID: " + requestEntryId));
@@ -56,58 +60,67 @@ public class EntryService {
         }
 
         // Update status and confirmation date.
-        requestEntry.setStatus("COMPLETED");
+        requestEntry.setProcessStatus(ProcessStatus.COMPLETED.name());
         requestEntry.setConfirmedDate(LocalDateTime.now());
         Entry updatedEntry = entryRepository.save(requestEntry);
         // Update stock (subtract requested quantities)
         updateStock(updatedEntry, -1);
-        return updatedEntry;
     }
 
     @Transactional
-    public Entry createReturnEntry(EntryReqDto entryReqDto) {
+    public void createReturnEntry(EntryReqDto entryReqDto) {
         // Set type explicitly.
         entryReqDto.setType(Type.RETURN.name());
         Entry entry = mapEntry(entryReqDto);
+        entry.setEntryNumber(generateNextEntryNumber(Type.RETURN.name()));
         Entry savedEntry = entryRepository.save(entry);
         // For receipts, add quantities (multiplier +1)
         updateStock(savedEntry, +1);
-        return savedEntry;
     }
 
     // --- Helper Methods ---
 
-    // Maps the unified DTO to an Entry entity.
     private Entry mapEntry(EntryReqDto entryReqDto) {
-        return Entry.builder()
-                .entryNumber(entryReqDto.getEntryNumber())
+        Entry entry = Entry.builder()
                 .type(entryReqDto.getType())
                 .entryDate(entryReqDto.getEntryDate())
                 .jobNumber(entryReqDto.getJobNumber())
-                .status(entryReqDto.getStatus())
+                .processStatus(entryReqDto.getProcessStatus())
                 .referenceNumber(entryReqDto.getReferenceNumber())
                 .supplierId(entryReqDto.getSupplierId() != null ? entryReqDto.getSupplierId() : 0)
                 .supplierName(entryReqDto.getSupplierName())
                 .supplierInvoice(entryReqDto.getSupplierInvoice())
                 .employeeId(entryReqDto.getEmployeeId() != null ? entryReqDto.getEmployeeId() : 0)
                 .employeeName(entryReqDto.getEmployeeName())
-                .entryDetailList(mapEntryDetailList(entryReqDto.getEntryDetailDtoList()))
+                .description(entryReqDto.getDescription())
                 .build();
+
+        entry.setEntryDetailList(mapEntryDetailList(entryReqDto.getEntryDetailDtoList(), entry));
+        return entry;
     }
 
-    // Converts a list of EntryDetailDto into a list of EntryDetail entities.
-    private List<EntryDetail> mapEntryDetailList(List<EntryDetailDto> entryDetailDtoList) {
+    private List<EntryDetail> mapEntryDetailList(List<EntryDetailDto> entryDetailDtoList, Entry entry) {
         if (entryDetailDtoList == null) return null;
         return entryDetailDtoList.stream()
                 .map(entryDetailDto -> EntryDetail.builder()
-                        .stock(Stock.builder().id(entryDetailDto.getStockId()).build())
+                        .entry(entry)
+                        .stock(getOrCreateStock(productService.getProductIdByProductCode(entryDetailDto.getProductCode())))
                         .quantity(entryDetailDto.getQuantity())
                         .unit(entryDetailDto.getUnit())
                         .unitCost(entryDetailDto.getUnitCost())
                         .totalCost(entryDetailDto.getTotalCost())
-                        .description(entryDetailDto.getDescription())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    private Stock getOrCreateStock(Long productId) {
+        return stockRepository.findByProductId(productId)
+                .orElseGet(() -> stockRepository.save(
+                        Stock.builder()
+                                .product(Product.builder().id(productId).build())
+                                .quantity(0)
+                                .build()
+                ));
     }
 
     // Updates the stock for each detail line in the entry based on the multiplier.
@@ -122,5 +135,16 @@ public class EntryService {
                 stockRepository.save(stock);
             });
         }
+    }
+
+    private String generateNextEntryNumber(String type) {
+        String sequenceName = switch (type.toUpperCase()) {
+            case "RECEIPT" -> "receipt_seq";
+            case "REQUEST" -> "request_seq";
+            case "RETURN" -> "return_seq";
+            default -> throw new IllegalStateException("Unexpected value: " + type);
+        };
+
+        return String.format("%010d", entryRepository.getNextSequenceValue(sequenceName));
     }
 }

@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "entry")
+@Table(name = "entry", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"type", "entryNumber"})
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,6 +37,7 @@ public class Entry {
     @Column(nullable = false)
     private String type;
 
+    //can change from input
     @NotNull
     @Column(nullable = false)
     private LocalDateTime entryDate;
@@ -42,11 +45,11 @@ public class Entry {
     @Size(max = 20)
     private String jobNumber;
 
-    @Size(max = 10)
-    private String status;
-
     @Size(max = 20)
     private String referenceNumber;
+
+    @Size(max = 10)
+    private String processStatus;
 
     private LocalDateTime confirmedDate;
 
@@ -55,6 +58,7 @@ public class Entry {
     @Size(max = 255)
     private String supplierName;
 
+    //add from input
     @Size(max = 20)
     private String supplierInvoice;
 
@@ -62,6 +66,9 @@ public class Entry {
 
     @Size(max = 100)
     private String employeeName;
+
+    @Size(max = 100)
+    private String description;
 
     @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL)
     private List<EntryDetail> entryDetailList;
