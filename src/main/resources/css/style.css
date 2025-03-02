@@ -27,7 +27,7 @@
     -fx-padding: 10px 15px;
     -fx-background-radius: 5px;
     -fx-border-radius: 5px;
-    -fx-pref-width: 180px;
+    -fx-pref-width: 220px;
     -fx-font-weight: 500;
 }
 .nav-button:hover {
@@ -53,9 +53,9 @@
     -fx-background-color: #E6E8EC; /* Light Gray Background */
     -fx-text-fill: #1F2937; /* Dark Gray Text */
     -fx-font-weight: bold;
-    -fx-padding: 8px 10px;
-    -fx-border-radius: 6px;
-    -fx-background-radius: 6px;
+    -fx-padding: 10px 15px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 .titled-pane > .title:hover {
     -fx-background-color: #B4B5B8; /* Slight Hover Effect */
@@ -66,9 +66,9 @@
 .titled-pane > .content {
     -fx-background-color: #FFFFFF; /* White background */
     -fx-border-color: #E0E0E0; /* Light border */
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 0px 10px;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 2); /* Soft shadow */
 }
 
@@ -80,8 +80,8 @@
     -fx-cursor: hand;
     -fx-alignment: CENTER_LEFT;
     -fx-padding: 8px 15px;
-    -fx-border-radius: 6px;
-    -fx-background-radius: 6px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 .nav-button-small:hover {
     -fx-background-color: #F0F2F5; /* Soft Gray */

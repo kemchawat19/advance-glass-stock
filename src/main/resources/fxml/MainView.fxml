@@ -14,13 +14,13 @@
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
 
-            <!-- Main Navigation -->
-            <Button text="📦 Stock" onAction="#handleStock" styleClass="nav-button"/>
-            <Button text="🧾 Receipt Entry" onAction="#handleReceiptEntry" styleClass="nav-button"/>
-            <Button text="📑 Request Entry" onAction="#handleRequestEntry" styleClass="nav-button"/>
-            <Button text="🔄 Return Entry" onAction="#handleReturnEntry" styleClass="nav-button"/>
-            <Button text="💼 Job" onAction="#handleJob" styleClass="nav-button"/>
-            <Button text="📊 Report" onAction="#handleReport" styleClass="nav-button"/>
+            <!-- Assign fx:id instead of onAction -->
+            <Button fx:id="stockButton" text="📦 Stock" styleClass="nav-button"/>
+            <Button fx:id="receiptEntryButton" text="🧾 Receipt Entry" styleClass="nav-button"/>
+            <Button fx:id="requestEntryButton" text="📑 Request Entry" styleClass="nav-button"/>
+            <Button fx:id="returnEntryButton" text="🔄 Return Entry" styleClass="nav-button"/>
+            <Button fx:id="jobButton" text="💼 Job" styleClass="nav-button"/>
+            <Button fx:id="reportButton" text="📊 Report" styleClass="nav-button"/>
 
             <!-- Master Files as a collapsible sub-menu -->
             <TitledPane text="📁 Master Files" expanded="false" styleClass="titled-pane">
@@ -29,9 +29,9 @@
                         <padding>
                             <Insets top="5" right="5" bottom="5" left="5"/>
                         </padding>
-                        <Button text="📦 Product" onAction="#handleMasterProduct" styleClass="nav-button-small"/>
-                        <Button text="👤 Customer" onAction="#handleMasterCustomer" styleClass="nav-button-small"/>
-                        <Button text="🚚 Supplier" onAction="#handleMasterSupplier" styleClass="nav-button-small"/>
+                        <Button fx:id="masterProductButton" text="🎁 Product" styleClass="nav-button-small"/>
+                        <Button fx:id="masterCustomerButton" text="👤 Customer" styleClass="nav-button-small"/>
+                        <Button fx:id="masterSupplierButton" text="🚚 Supplier" styleClass="nav-button-small"/>
                     </VBox>
                 </content>
             </TitledPane>
