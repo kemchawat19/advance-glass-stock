@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 
@@ -33,6 +34,8 @@ public class MainViewController {
     private Button masterCustomerButton;
     @FXML
     private Button masterSupplierButton;
+    @FXML
+    private TitledPane masterFilesPane;
 
     private Button activeButton = null;
     private final Map<Button, String> buttonViewMap = new HashMap<>();
@@ -53,7 +56,10 @@ public class MainViewController {
         // Set up button click handling
         buttonViewMap.forEach((button, fxmlPath) -> {
             if (button != null) {
-                button.setOnAction(event -> setActiveButton(button, fxmlPath));
+                button.setOnAction(event -> {
+                    collapseTitledPaneIfNeeded(button);
+                    setActiveButton(button, fxmlPath);
+                });
             }
         });
 
@@ -97,13 +103,25 @@ public class MainViewController {
         loadContent(fxmlPath);
     }
 
+    private void collapseTitledPaneIfNeeded(Button clickedButton) {
+        // If clicking outside "Master Files", collapse it
+        if (!isMasterFileButton(clickedButton) && masterFilesPane.isExpanded()) {
+            masterFilesPane.setExpanded(false);
+        }
+    }
+
+    private boolean isMasterFileButton(Button button) {
+        return button == masterProductButton || button == masterCustomerButton || button == masterSupplierButton;
+    }
+
     private void loadContent(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent content = loader.load();
             contentPane.getChildren().setAll(content);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
     }
 }

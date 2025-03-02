@@ -3,16 +3,26 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.layout.*?>
 <VBox xmlns="http://javafx.com/javafx/23.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.advance.glass.stock.view.StockViewController"
-      spacing="10" alignment="CENTER">
+      spacing="10">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
-    <Label fx:id="statusLabel" text="Stock Management" styleClass="section-title"/>
-    <TableView fx:id="stockTable" prefHeight="300" prefWidth="600"/>
-    <!-- Additional controls (buttons, filters) can be added -->
+
+    <!-- 🏷 Header Section with Left Alignment -->
+    <HBox>
+        <Label text="Stock Management" styleClass="text-header"/>
+    </HBox>
+
+    <StackPane VBox.vgrow="ALWAYS">
+        <VBox alignment="CENTER" spacing="15">
+            <!-- 🔹 Status Label Below Header -->
+            <Label fx:id="statusLabel" styleClass="section-title"/>
+            <!-- 📊 Stock Table -->
+            <TableView fx:id="stockTable" prefHeight="300" prefWidth="600"/>
+        </VBox>
+    </StackPane>
 </VBox>

@@ -23,7 +23,7 @@
             <Button fx:id="reportButton" text="📊 Report" styleClass="nav-button"/>
 
             <!-- Master Files as a collapsible sub-menu -->
-            <TitledPane text="📁 Master Files" expanded="false" styleClass="titled-pane">
+            <TitledPane fx:id="masterFilesPane" text="📁 Master Files" expanded="false" styleClass="titled-pane">
                 <content>
                     <VBox spacing="5">
                         <padding>

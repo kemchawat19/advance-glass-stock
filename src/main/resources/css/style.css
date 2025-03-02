@@ -4,6 +4,69 @@
     -fx-background-color: #F8F8F8; /* Light Gray */
 }
 
+/* 📝 General Text Styles */
+.text-normal {
+    -fx-font-size: 14px;
+    -fx-text-fill: #1F2937; /* Dark Gray */
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.text-muted {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B7280; /* Light Gray */
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.text-header {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.text-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #374151; /* Slightly Darker Gray */
+    -fx-font-weight: semi-bold;
+}
+
+/*!* Center Content *!*/
+/*.section-title {*/
+/*    -fx-font-size: 20px;*/
+/*    -fx-font-weight: bold;*/
+/*    -fx-text-fill: #2c3e50;*/
+/*}*/
+/*.welcome-label {*/
+/*    -fx-text-fill: #34495E;*/
+/*    -fx-font-size: 18px;*/
+/*}*/
+/*.modern-textfield {*/
+/*    -fx-background-radius: 5;*/
+/*    -fx-border-radius: 5;*/
+/*    -fx-border-color: #bdc3c7;*/
+/*    -fx-border-width: 1;*/
+/*    -fx-padding: 5 10;*/
+/*}*/
+/*.modern-button {*/
+/*    -fx-background-color: #3498DB;*/
+/*    -fx-text-fill: white;*/
+/*    -fx-background-radius: 5;*/
+/*    -fx-padding: 8 15;*/
+/*    -fx-cursor: hand;*/
+/*}*/
+/*.modern-button:hover {*/
+/*    -fx-background-color: #2980B9;*/
+/*}*/
+
+/* Status Bar */
+.status-bar {
+    -fx-background-color: #ecf0f1;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1 0 0 0;
+}
+.status-text {
+    -fx-text-fill: #7f8c8d;
+}
+
 /* 🔹 Sidebar Navigation */
 .side-nav {
     -fx-background-color: #E6E8EC; /* Light Sidebar */
