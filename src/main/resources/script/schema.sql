@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS product (
     product_name VARCHAR(255) NOT NULL,
     product_group VARCHAR(100),
     product_unit VARCHAR(50),
-    status VARCHAR(10),
+    product_status VARCHAR(10),
     create_time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS stock (
 CREATE TABLE IF NOT EXISTS entry (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     entry_number VARCHAR(20) NOT NULL,
-    type VARCHAR(20) NOT NULL,
+    entry_type VARCHAR(20) NOT NULL,
     entry_date TIMESTAMP NOT NULL,
     job_number VARCHAR(20),
     reference_number VARCHAR(20),
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS entry (
     description VARCHAR(100),
     create_time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE (type, entry_number)
+    UNIQUE (entry_type, entry_number)
 );
 
 CREATE SEQUENCE IF NOT EXISTS receipt_seq START WITH 1 INCREMENT BY 1;
@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS entry_detail (
     stock_id BIGINT NOT NULL,
     quantity INT NOT NULL,
     unit VARCHAR(20),
-    unit_cost DECIMAL(10,2),
-    total_cost DECIMAL(10,2),
+    unit_price DECIMAL(10,2),
+    amount DECIMAL(10,2),
     create_time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (entry_id) REFERENCES entry(id) ON DELETE CASCADE,

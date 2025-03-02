@@ -3,7 +3,7 @@ package org.advance.glass.stock.constant;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public enum Type {
+public enum EntryType {
     RECEIPT,
     REQUEST,
     RETURN

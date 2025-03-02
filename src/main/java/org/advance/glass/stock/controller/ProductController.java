@@ -52,4 +52,10 @@ public class ProductController {
         List<Product> products = productService.searchProductsByName(productName);
         return ResponseEntity.ok(products);
     }
+
+    @PostMapping("/multiple")
+    public ResponseEntity<List<Product>> createMultipleProducts(@RequestBody List<ProductReqDto> productReqDtoList) {
+        List<Product> createdProducts = productService.createMultipleProducts(productReqDtoList);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProducts);
+    }
 }

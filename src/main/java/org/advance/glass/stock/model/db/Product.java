@@ -38,7 +38,7 @@ public class Product {
     private String productUnit;
 
     @Size(max = 10)
-    private String status;
+    private String productStatus;
 
     @CreationTimestamp
     @Column(updatable = false)

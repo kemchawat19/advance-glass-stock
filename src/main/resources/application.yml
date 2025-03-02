@@ -8,6 +8,7 @@ spring:
     name: advance-glass-stock
   datasource:
     url: jdbc:h2:file:./data/stockdb;AUTO_SERVER=TRUE;AUTO_RECONNECT=TRUE
+#    url: jdbc:h2:file:./data/stockdb;AUTO_SERVER=TRUE;AUTO_RECONNECT=TRUE;MODE=MySQL;DATABASE_TO_UPPER=false;CASE_INSENSITIVE_IDENTIFIERS=TRUE;AUTO_RECONNECT=TRUE
 #    url: jdbc:h2:file:./data/stockdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
     driver-class-name: org.h2.Driver
     username: sa
@@ -17,12 +18,21 @@ spring:
     hibernate:
       ddl-auto: none
 #      ddl-auto: update
+#    properties:
+#      hibernate:
+#        connection:
+#          charSet: UTF-8
+#        jdbc:
+#          time_zone: UTC
     show-sql: true
   h2:
     console:
       enabled: true
+#      settings:
+#        web-allow-others: true
   sql:
     init:
       mode: always
+      encoding: UTF-8
       schema-locations: classpath:script/schema.sql
-#      data-locations: classpath:script/data.sql
+      data-locations: classpath:script/data.sql

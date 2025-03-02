@@ -40,10 +40,10 @@ public class EntryDetail {
     private String unit;
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal unitCost;
+    private BigDecimal unitPrice;
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal totalCost;
+    private BigDecimal amount;
 
     @CreationTimestamp
     @Column(updatable = false)

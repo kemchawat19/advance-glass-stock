@@ -35,7 +35,7 @@ public class Entry {
     @NotNull
     @Size(max = 20)
     @Column(nullable = false)
-    private String type;
+    private String entryType;
 
     //can change from input
     @NotNull

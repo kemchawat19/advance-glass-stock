@@ -5,7 +5,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import org.advance.glass.stock.constant.Type;
+import org.advance.glass.stock.constant.EntryType;
 import org.advance.glass.stock.model.db.Entry;
 import org.advance.glass.stock.model.request.EntryDetailDto;
 import org.advance.glass.stock.model.request.EntryReqDto;
@@ -57,7 +57,7 @@ public class ReceiptViewController {
         // Set the type to "RECEIPT". You can also use an enum.
         EntryReqDto dto = EntryReqDto.builder()
                 .entryNumber(receiptNo)
-                .type(Type.RECEIPT.name())
+                .type(EntryType.RECEIPT.name())
                 .entryDate(importDateTime)
                 .processStatus("COMPLETED")
                 .supplierName(supplier)
@@ -66,8 +66,8 @@ public class ReceiptViewController {
                 .entryDetailDtoList(java.util.Collections.singletonList(
                         EntryDetailDto.builder()
                                 .quantity(100)       // Replace with the actual quantity
-                                .unitCost(new java.math.BigDecimal("5.00"))   // Replace with actual unit cost
-                                .totalCost(new java.math.BigDecimal("500.00"))  // Replace with calculated total cost
+                                .unitPrice(new java.math.BigDecimal("5.00"))   // Replace with actual unit cost
+                                .amount(new java.math.BigDecimal("500.00"))  // Replace with calculated total cost
                                 .build()
                 ))
                 .build();

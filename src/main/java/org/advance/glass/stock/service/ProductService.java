@@ -1,6 +1,7 @@
 package org.advance.glass.stock.service;
 
 import lombok.RequiredArgsConstructor;
+import org.advance.glass.stock.constant.ProductStatus;
 import org.advance.glass.stock.model.db.Product;
 import org.advance.glass.stock.model.request.ProductReqDto;
 import org.advance.glass.stock.repository.ProductRepository;
@@ -22,8 +23,7 @@ public class ProductService {
                 .productName(productReqDto.getProductName())
                 .productGroup(productReqDto.getProductGroup())
                 .productUnit(productReqDto.getProductUnit())
-                // Default to ACTIVE if not specified.
-                .status(productReqDto.getStatus() != null ? productReqDto.getStatus() : "ACTIVE")
+                .productStatus(productReqDto.getStatus() != null ? productReqDto.getStatus() : ProductStatus.ACTIVE.name())
                 .build();
         return productRepository.save(product);
     }
@@ -46,7 +46,7 @@ public class ProductService {
         product.setProductName(productReqDto.getProductName());
         product.setProductGroup(productReqDto.getProductGroup());
         product.setProductUnit(productReqDto.getProductUnit());
-        product.setStatus(productReqDto.getStatus());
+        product.setProductStatus(productReqDto.getStatus());
         return productRepository.save(product);
     }
 
@@ -54,7 +54,7 @@ public class ProductService {
     @Transactional
     public void deleteProduct(Long productId) {
         Product product = getProductById(productId);
-        product.setStatus("INACTIVE");
+        product.setProductStatus(ProductStatus.INACTIVE.name());
         productRepository.save(product);
     }
 
@@ -62,4 +62,31 @@ public class ProductService {
     public List<Product> searchProductsByName(String productName) {
         return productRepository.findByProductNameContainingIgnoreCase(productName);
     }
+
+    @Transactional
+    public List<Product> createMultipleProducts(List<ProductReqDto> productReqDtoList) {
+        List<Product> products = productReqDtoList.stream()
+                .map(productReqDto -> Product.builder()
+                        .productName(productReqDto.getProductName())
+                        .productGroup(productReqDto.getProductGroup())
+                        .productUnit(productReqDto.getProductUnit())
+                        .productStatus(productReqDto.getStatus() != null ? productReqDto.getStatus() : ProductStatus.ACTIVE.name())
+                        .build())
+                .toList();
+        return productRepository.saveAll(products);
+    }
+
+//    public Product getOrCreateProduct(Long productId) {
+//        return productRepository.findById(productId)
+//                .orElseGet(() -> {
+//                    Product newProduct = Product.builder()
+//                            .id(productId)
+//                            .productName("Default Product")
+//                            .productGroup("Uncategorized")
+//                            .productUnit("pcs")
+//                            .status("ACTIVE")
+//                            .build();
+//                    return productRepository.save(newProduct);
+//                });
+//    }
 }
