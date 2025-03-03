@@ -164,20 +164,20 @@
     -fx-background-color: #2B5ED6;
 }
 
-/* 📊 Table Styling */
-.table-view {
-    -fx-background-color: white;
-    -fx-border-color: #BDC3C7;
-    -fx-border-radius: 5px;
-}
-.table-view .column-header {
-    -fx-background-color: #ECF0F1;
-    -fx-text-fill: #2C3E50;
-    -fx-font-weight: bold;
-}
-.table-row-cell:hover {
-    -fx-background-color: #F0F5FF;
-}
+/*!* 📊 Table Styling *!*/
+/*.table-view {*/
+/*    -fx-background-color: white;*/
+/*    -fx-border-color: #BDC3C7;*/
+/*    -fx-border-radius: 5px;*/
+/*}*/
+/*.table-view .column-header {*/
+/*    -fx-background-color: #ECF0F1;*/
+/*    -fx-text-fill: #2C3E50;*/
+/*    -fx-font-weight: bold;*/
+/*}*/
+/*.table-row-cell:hover {*/
+/*    -fx-background-color: #F0F5FF;*/
+/*}*/
 
 /* ⚡ Status Bar */
 .status-bar {
@@ -199,3 +199,41 @@
 .status-out-of-stock {
     -fx-text-fill: #EA5455; /* Red */
 }
+
+/* 📊 Custom Table Styling */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* 📌 Header Styling */
+.table-view .column-header-background {
+    -fx-background-color: #F9FAFB; /* Light Gray */
+    -fx-border-color: #E5E7EB;
+    -fx-border-radius: 5px 5px 0px 0px;
+    -fx-background-radius: 5px 5px 0px 0px;
+}
+
+.table-view .column-header {
+    -fx-text-fill: #1F2937; /* Dark Gray */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* 📌 Row Styling */
+/*.table-row-cell {*/
+/*    -fx-border-color: transparent;*/
+/*    -fx-padding: 8px;*/
+/*    -fx-background-color: white;*/
+/*}*/
+
+/*.table-row-cell:odd {*/
+/*    -fx-background-color: #F9FAFB; !* Alternate row color *!*/
+/*}*/
+
+/*.table-row-cell:selected {*/
+/*    -fx-background-color: #D1E9FF; !* Blue selection *!*/
+/*}*/
