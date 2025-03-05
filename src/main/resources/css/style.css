@@ -74,8 +74,8 @@
 }
 .nav-header {
     -fx-text-fill: #1F2937;
-    -fx-font-size: 16px;
-    -fx-padding: 12px 0;
+    -fx-font-size: 14px;
+    /*-fx-padding: 12px 0;*/
     -fx-alignment: center;
     -fx-font-weight: bold;
 }
