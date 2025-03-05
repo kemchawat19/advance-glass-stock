@@ -3,14 +3,20 @@ package org.advance.glass.stock.view;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.advance.glass.stock.model.db.Product;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -113,6 +119,112 @@ public class MasterProductViewController {
             productUnitField.setText(selectedProduct.getProductUnit());
         } else {
             System.out.println("No product selected!");
+        }
+    }
+
+    @FXML
+    public void handleOpenAddProductDialog() {
+        Dialog<Product> dialog = new Dialog<>();
+        dialog.setTitle("Add New Product");
+
+        // Add UI Fields
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        VBox content = new VBox(10);
+        TextField nameField = new TextField();
+        nameField.setPromptText("Product Name");
+
+        TextField groupField = new TextField();
+        groupField.setPromptText("Product Group");
+
+        TextField unitField = new TextField();
+        unitField.setPromptText("Product Unit");
+
+        content.getChildren().addAll(new Label("Enter Product Details:"), nameField, groupField, unitField);
+
+        // 🏷️ Set Dialog Size
+        dialogPane.setMinSize(400, 300);
+
+        dialogPane.setContent(content);
+
+        // 🔹 Manually Create Buttons (Centered)
+        Button okButton = new Button("OK");
+        Button cancelButton = new Button("Cancel");
+
+        HBox buttonBox = new HBox(15, cancelButton, okButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(10, 0, 0, 0));
+
+        VBox layout = new VBox(content, buttonBox);
+        layout.setAlignment(Pos.CENTER);
+
+        dialogPane.setContent(layout);
+
+        // 🔹 Handle Button Actions
+        okButton.setOnAction(e -> {
+            dialog.setResult(new Product(
+                    null, nameField.getText(), groupField.getText(), unitField.getText(),
+                    "ACTIVE", LocalDateTime.now(), LocalDateTime.now()
+            ));
+            dialog.close(); // ✅ Close dialog after OK
+        });
+
+        cancelButton.setOnAction(e -> dialog.close()); // ✅ Close dialog on Cancel
+
+        dialog.showAndWait().ifPresent(this::sendProductToApi);
+    }
+
+
+    /**
+     * ✅ Send Single Product to API
+     */
+    private void sendProductToApi(Product product) {
+        try {
+            String API_URL = "http://localhost:8080/api/products";
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Product> requestEntity = new HttpEntity<>(product, headers);
+
+            ResponseEntity<Product> response = restTemplate.postForEntity(API_URL, requestEntity, Product.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                System.out.println("Product added successfully!");
+                fetchProductsFromApi(); // Refresh table
+            } else {
+                System.out.println("Failed to create product.");
+            }
+        } catch (Exception ex) {
+            System.out.println("Error creating product: " + ex.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleAddProduct() {
+        String name = productNameField.getText();
+        String group = productGroupField.getText();
+        String unit = productUnitField.getText();
+
+        if (name.isEmpty() || group.isEmpty() || unit.isEmpty()) {
+            System.out.println("Please fill all fields!");
+            return;
+        }
+
+        Product newProduct = new Product(null, name, group, unit, "ACTIVE", LocalDateTime.now(), LocalDateTime.now());
+
+        sendProductToApi(newProduct);
+        scrollToLastRow();
+
+        // Clear input fields after saving
+        productNameField.clear();
+        productGroupField.clear();
+        productUnitField.clear();
+    }
+
+    private void scrollToLastRow() {
+        if (!productTable.getItems().isEmpty()) {
+            int lastRowIndex = productTable.getItems().size() - 1;
+            productTable.scrollTo(lastRowIndex); // ✅ Scroll to the last item
+            productTable.getSelectionModel().select(lastRowIndex); // ✅ Select last row
         }
     }
 }

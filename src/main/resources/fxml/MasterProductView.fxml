@@ -12,18 +12,22 @@
     </padding>
 
     <!-- 🏷 Header Section with Left Alignment -->
-    <HBox>
+    <HBox spacing="10">
         <Label text="Product Master File" styleClass="text-header"/>
+        <Button text="+ New Product" onAction="#handleOpenAddProductDialog" styleClass="add-button"/>
     </HBox>
 
     <StackPane VBox.vgrow="ALWAYS">
         <VBox alignment="CENTER" spacing="15">
             <!-- Product Table -->
             <TableView fx:id="productTable" prefHeight="300" prefWidth="600"/>
-            <TextField fx:id="productIdField" promptText="Product Id"/>
-            <TextField fx:id="productNameField" promptText="Product Name"/>
-            <TextField fx:id="productGroupField" promptText="Product Group"/>
-            <TextField fx:id="productUnitField" promptText="Product Unit"/>
+
+            <!-- 🔘 New Product Input Form Below -->
+            <TextField fx:id="productNameField" promptText="Product Name" alignment="CENTER"/>
+            <TextField fx:id="productGroupField" promptText="Product Group" alignment="CENTER"/>
+            <TextField fx:id="productUnitField" promptText="Product Unit" alignment="CENTER"/>
+
+            <Button text="Add Product" onAction="#handleAddProduct" styleClass="modern-button"/>
             <Button text="Update Product" onAction="#handleUpdateProduct" styleClass="modern-button"/>
             <Button text="Select Product" onAction="#handleSelectProduct" styleClass="modern-button"/>
         </VBox>
