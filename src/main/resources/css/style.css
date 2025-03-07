@@ -11,7 +11,7 @@
 
 /* 📝 General Text Styles */
 .text-header {
-    -fx-font-size: 26px;
+    -fx-font-size: 30px;
     -fx-font-weight: bold;
     -fx-text-fill: #2c3e50;
     -fx-font-family: "Segoe UI", sans-serif;
@@ -170,7 +170,7 @@
     -fx-background-color: #366EF4; /* Primary Blue */
     -fx-text-fill: white;
     -fx-background-radius: 8px;
-    -fx-padding: 10px 20px;
+    /*-fx-padding: 10px 20px;*/
     -fx-cursor: hand;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
