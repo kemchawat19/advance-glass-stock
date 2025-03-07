@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="328.0" prefWidth="300.0" spacing="20" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.advance.glass.stock.view.AddProductController">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <Label fx:id="labelHeader" styleClass="text-header" text="เพิ่มสินค้า" />
+
+    <VBox spacing="2">  <!-- Small spacing to keep label close to TextField -->
+        <Label styleClass="text-normal" text="ชื่อสินค้า" />
+        <TextField fx:id="productNameField" promptText="ชื่อสินค้า" />
+    </VBox>
+
+    <VBox spacing="2">
+        <Label styleClass="text-normal" text="กลุ่มสินค้า" />
+        <TextField fx:id="productGroupField" promptText="กลุ่มสินค้า" />
+    </VBox>
+
+    <VBox spacing="2">
+        <Label styleClass="text-normal" text="หน่วยสินค้า" />
+        <TextField fx:id="productUnitField" promptText="หน่วยสินค้า" />
+    </VBox>
+
+    <!--    <HBox alignment="CENTER" spacing="10">-->
+    <!--        <Button onAction="#handleClearFields" prefHeight="25.6" prefWidth="51.2" styleClass="modern-button" text="Clear" />-->
+    <!--        <Button onAction="#handleCancel" styleClass="modern-button" text="Cancel" />-->
+    <!--    </HBox>-->
+    <VBox alignment="CENTER" prefHeight="8.0" prefWidth="199.0">
+        <Button fx:id="saveButton" onAction="#handleSaveProduct" prefHeight="26.0" prefWidth="91.0" styleClass="modern-button" text="บันทึก" />
+    </VBox>
+</VBox>

@@ -25,7 +25,7 @@ public class MainApp extends javafx.application.Application {
                 "MainView.fxml resource not found"
         ));
         Scene scene = new Scene(root, 1024, 768);
-        primaryStage.setTitle("Inventory Management System");
+        primaryStage.setTitle("Stock Management System");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

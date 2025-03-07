@@ -1,12 +1,32 @@
 /* 🌍 Global Styling */
+@font-face {
+    font-family: "Prompt";
+    src: url("../fonts/Prompt-Regular.ttf"); /* Go up one level */
+}
+
 .root {
     -fx-font-family: "Segoe UI", sans-serif;
     -fx-background-color: #F8F8F8; /* Light Gray */
 }
 
 /* 📝 General Text Styles */
+.text-header {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.text-header-add {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
 .text-normal {
     -fx-font-size: 14px;
+    -fx-font-weight: bold;
     -fx-text-fill: #1F2937; /* Dark Gray */
     -fx-font-family: "Segoe UI", sans-serif;
 }
@@ -17,16 +37,11 @@
     -fx-font-family: "Segoe UI", sans-serif;
 }
 
-.text-header {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
-}
-
 .text-subtitle {
     -fx-font-size: 16px;
     -fx-text-fill: #374151; /* Slightly Darker Gray */
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
 }
 
 /*!* Center Content *!*/
@@ -237,3 +252,15 @@
 /*.table-row-cell:selected {*/
 /*    -fx-background-color: #D1E9FF; !* Blue selection *!*/
 /*}*/
+
+/* ➕ New Product Button */
+.add-button {
+    -fx-background-color: #3B82F6; /* Primary Blue */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 8px;
+}
+.add-button:hover {
+    -fx-background-color: #2563EB;
+}

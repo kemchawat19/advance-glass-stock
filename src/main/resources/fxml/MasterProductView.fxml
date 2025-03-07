@@ -3,33 +3,37 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns="http://javafx.com/javafx/23.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.advance.glass.stock.view.MasterProductViewController"
-      spacing="10" alignment="CENTER">
+<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.advance.glass.stock.view.MasterProductViewController">
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
     <!-- 🏷 Header Section with Left Alignment -->
     <HBox spacing="10">
-        <Label text="Product Master File" styleClass="text-header"/>
-        <Button text="+ New Product" onAction="#handleOpenAddProductDialog" styleClass="add-button"/>
+        <Label styleClass="text-header-add" text="Product Master File" />
+<!--        <Button onAction="#handleOpenAddProductDialog" styleClass="modern-button" text="+ New Product" />-->
+        <Button onAction="#handleOpenAddProductStage" styleClass="modern-button" text="+ New Product" />
     </HBox>
 
     <StackPane VBox.vgrow="ALWAYS">
-        <VBox alignment="CENTER" spacing="15">
+        <VBox alignment="TOP_CENTER" spacing="15">
             <!-- Product Table -->
-            <TableView fx:id="productTable" prefHeight="300" prefWidth="600"/>
+            <TableView fx:id="productTable" prefHeight="300" prefWidth="600" />
 
-            <!-- 🔘 New Product Input Form Below -->
-            <TextField fx:id="productNameField" promptText="Product Name" alignment="CENTER"/>
-            <TextField fx:id="productGroupField" promptText="Product Group" alignment="CENTER"/>
-            <TextField fx:id="productUnitField" promptText="Product Unit" alignment="CENTER"/>
+            <Region prefHeight="20"/>  <!-- Adds empty space -->
 
-            <Button text="Add Product" onAction="#handleAddProduct" styleClass="modern-button"/>
-            <Button text="Update Product" onAction="#handleUpdateProduct" styleClass="modern-button"/>
-            <Button text="Select Product" onAction="#handleSelectProduct" styleClass="modern-button"/>
+<!--            <TextField fx:id="productNameField" alignment="CENTER" promptText="Product Name" />-->
+<!--            <TextField fx:id="productGroupField" alignment="CENTER" promptText="Product Group" />-->
+<!--            <TextField fx:id="productUnitField" alignment="CENTER" promptText="Product Unit" />-->
+
+<!--            <Button onAction="#handleAddProduct" styleClass="modern-button" text="Add Product" />-->
+<!--            <Button onAction="#handleUpdateProduct" styleClass="modern-button" text="Update Product" />-->
+<!--            <Button onAction="#handleSelectProduct" styleClass="modern-button" text="Select Product" />-->
+
+<!--            &lt;!&ndash; 🔘 New Product Input Form Below &ndash;&gt;-->
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="20" />
+            </padding>
         </VBox>
     </StackPane>
 </VBox>

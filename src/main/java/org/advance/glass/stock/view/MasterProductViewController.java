@@ -3,12 +3,15 @@ package org.advance.glass.stock.view;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.advance.glass.stock.model.db.Product;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -81,7 +85,7 @@ public class MasterProductViewController {
         // TODO: Call ProductService to update database
     }
 
-    private void fetchProductsFromApi() {
+    void fetchProductsFromApi() {
         RestTemplate restTemplate = new RestTemplate();
         try {
             // API Endpoint
@@ -122,57 +126,57 @@ public class MasterProductViewController {
         }
     }
 
-    @FXML
-    public void handleOpenAddProductDialog() {
-        Dialog<Product> dialog = new Dialog<>();
-        dialog.setTitle("Add New Product");
-
-        // Add UI Fields
-        DialogPane dialogPane = dialog.getDialogPane();
-
-        VBox content = new VBox(10);
-        TextField nameField = new TextField();
-        nameField.setPromptText("Product Name");
-
-        TextField groupField = new TextField();
-        groupField.setPromptText("Product Group");
-
-        TextField unitField = new TextField();
-        unitField.setPromptText("Product Unit");
-
-        content.getChildren().addAll(new Label("Enter Product Details:"), nameField, groupField, unitField);
-
-        // 🏷️ Set Dialog Size
-        dialogPane.setMinSize(400, 300);
-
-        dialogPane.setContent(content);
-
-        // 🔹 Manually Create Buttons (Centered)
-        Button okButton = new Button("OK");
-        Button cancelButton = new Button("Cancel");
-
-        HBox buttonBox = new HBox(15, cancelButton, okButton);
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setPadding(new Insets(10, 0, 0, 0));
-
-        VBox layout = new VBox(content, buttonBox);
-        layout.setAlignment(Pos.CENTER);
-
-        dialogPane.setContent(layout);
-
-        // 🔹 Handle Button Actions
-        okButton.setOnAction(e -> {
-            dialog.setResult(new Product(
-                    null, nameField.getText(), groupField.getText(), unitField.getText(),
-                    "ACTIVE", LocalDateTime.now(), LocalDateTime.now()
-            ));
-            dialog.close(); // ✅ Close dialog after OK
-        });
-
-        cancelButton.setOnAction(e -> dialog.close()); // ✅ Close dialog on Cancel
-
-        dialog.showAndWait().ifPresent(this::sendProductToApi);
-    }
+//    @FXML
+//    public void handleOpenAddProductDialog() {
+//        Dialog<Product> dialog = new Dialog<>();
+//        dialog.setTitle("Add New Product");
+//
+//        // Add UI Fields
+//        DialogPane dialogPane = dialog.getDialogPane();
+//
+//        VBox content = new VBox(10);
+//        TextField nameField = new TextField();
+//        nameField.setPromptText("Product Name");
+//
+//        TextField groupField = new TextField();
+//        groupField.setPromptText("Product Group");
+//
+//        TextField unitField = new TextField();
+//        unitField.setPromptText("Product Unit");
+//
+//        content.getChildren().addAll(new Label("Enter Product Details:"), nameField, groupField, unitField);
+//
+//        // 🏷️ Set Dialog Size
+//        dialogPane.setMinSize(400, 300);
+//
+//        dialogPane.setContent(content);
+//
+//        // 🔹 Manually Create Buttons (Centered)
+//        Button okButton = new Button("OK");
+//        Button cancelButton = new Button("Cancel");
+//
+//        HBox buttonBox = new HBox(15, cancelButton, okButton);
+//        buttonBox.setAlignment(Pos.CENTER);
+//        buttonBox.setPadding(new Insets(10, 0, 0, 0));
+//
+//        VBox layout = new VBox(content, buttonBox);
+//        layout.setAlignment(Pos.CENTER);
+//
+//        dialogPane.setContent(layout);
+//
+//        // 🔹 Handle Button Actions
+//        okButton.setOnAction(e -> {
+//            dialog.setResult(new Product(
+//                    null, nameField.getText(), groupField.getText(), unitField.getText(),
+//                    "ACTIVE", LocalDateTime.now(), LocalDateTime.now()
+//            ));
+//            dialog.close(); // ✅ Close dialog after OK
+//        });
+//
+//        cancelButton.setOnAction(e -> dialog.close()); // ✅ Close dialog on Cancel
+//
+//        dialog.showAndWait().ifPresent(this::sendProductToApi);
+//    }
 
 
     /**
@@ -220,11 +224,45 @@ public class MasterProductViewController {
         productUnitField.clear();
     }
 
-    private void scrollToLastRow() {
+    void scrollToLastRow() {
         if (!productTable.getItems().isEmpty()) {
             int lastRowIndex = productTable.getItems().size() - 1;
             productTable.scrollTo(lastRowIndex); // ✅ Scroll to the last item
             productTable.getSelectionModel().select(lastRowIndex); // ✅ Select last row
         }
     }
+
+    @FXML
+    public void handleOpenAddProductStage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddProductView.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass reference
+            AddProductController controller = loader.getController();
+            controller.setParentController(this);  // Pass reference to refresh TableView
+
+            // Apply CSS Manually (Debugging Step)
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+
+            // Create a new Stage (Window)
+            Stage stage = new Stage();
+//            stage.setTitle("เพิ่มสินค้า");
+            stage.setScene(scene);
+
+            // 🏷️ Track Main Window (Stage) and Close AddProductView if Main Closes
+//            Stage mainStage = (Stage) productTable.getScene().getWindow();
+//            mainStage.setOnCloseRequest(event -> stage.close());
+
+            // 🏷️ Make the AddProductView modal (blocks interaction with main window)
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(productTable.getScene().getWindow()); // Set owner as Main Stage
+
+            stage.showAndWait(); // Wait for user to close
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
