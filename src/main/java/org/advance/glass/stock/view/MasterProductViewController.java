@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.advance.glass.stock.model.db.Product;
@@ -61,51 +60,36 @@ public class MasterProductViewController {
         productUnitColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         productStatusColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        // Enable row tracking
+        // Make columns editable and add ENTER key event
         setupEditableColumn(productNameColumn, "productName");
         setupEditableColumn(productGroupColumn, "productGroup");
         setupEditableColumn(productUnitColumn, "productUnit");
         setupEditableColumn(productStatusColumn, "productStatus");
 
-        // Apply row factory
+        productTable.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            System.out.println("TableView focused: " + newVal);
+        });
+
         productTable.setRowFactory(tv -> new TableRow<>() {
-            private final Button updateButton = new Button("💾 บันทึก");
-
-            {
-                // ✅ Setup Button Action
-                updateButton.setOnAction(event -> {
-                    Product product = getItem();
-                    if (product != null) {
-                        updateProductApi(product);
-                        editedProducts.remove(product.getId()); // ✅ Remove from edited list after update
-                        productTable.refresh(); // ✅ Refresh UI
-                    }
-                });
-                updateButton.setStyle("-fx-background-color: #28a745; -fx-text-fill: white;");
-            }
-
             @Override
             protected void updateItem(Product product, boolean empty) {
                 super.updateItem(product, empty);
+
+                // Clear all previous styling
                 getStyleClass().removeAll("edited-row", "normal-row");
 
                 if (empty || product == null) {
-                    setGraphic(null); // Hide button for empty rows
-                    getStyleClass().add("normal-row");
-                } else {
-                    if (editedProducts.containsKey(product.getId())) {
-                        getStyleClass().add("edited-row"); // Apply edited row style
-
-                        // ✅ Wrap content in HBox to keep button floating next to row
-                        HBox rowContent = new HBox(10, updateButton);
-                        rowContent.setStyle("-fx-alignment: center-right; -fx-padding: 5px;");
-                        setGraphic(rowContent);
-                    } else {
-                        setGraphic(null); // Remove button if row is not edited
-                    }
+                    getStyleClass().add("normal-row"); // Default row style
+                } else if (editedProducts.containsKey(product.getId())) {
+                    getStyleClass().add("edited-row"); // Add custom style if edited
                 }
             }
         });
+
+        // 🔹 Add "Update" Button Column
+        TableColumn<Product, Void> actionColumn = getActionColumn();
+
+        productTable.getColumns().add(actionColumn);
     }
 
     private TableColumn<Product, Void> getActionColumn() {
