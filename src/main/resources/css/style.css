@@ -112,12 +112,12 @@
     -fx-background-color: #B4B5B8; /* White Gray Hover */
     -fx-transition: background-color 0.2s ease-in-out;
 }
-/* Active State (Clicked Button) */
-.nav-button:focused, .nav-button:pressed {
-    -fx-background-color: #FFFFFF; /* White */
-    -fx-text-fill: #1F2937; /* Dark Text */
+/* 🔘 Active Sidebar Button */
+.nav-button-active {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #1F2937;
     -fx-font-weight: bold;
-    -fx-border-color: #D1D5DB; /* Light Gray Border */
+    -fx-border-color: #D1D5DB; /* Light Gray */
     -fx-border-width: 1px;
 }
 
