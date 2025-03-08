@@ -42,6 +42,7 @@ public class MainViewController {
 
     @FXML
     public void initialize() {
+        disableTabNavigation(); // ✅ Prevents TAB navigation
         // Map buttons to corresponding views
         buttonViewMap.put(stockButton, "/fxml/StockView.fxml");
         buttonViewMap.put(receiptEntryButton, "/fxml/ReceiptView.fxml");
@@ -112,6 +113,19 @@ public class MainViewController {
 
     private boolean isMasterFileButton(Button button) {
         return button == masterProductButton || button == masterCustomerButton || button == masterSupplierButton;
+    }
+
+    private void disableTabNavigation() {
+        stockButton.setFocusTraversable(false);
+        receiptEntryButton.setFocusTraversable(false);
+        requestEntryButton.setFocusTraversable(false);
+        returnEntryButton.setFocusTraversable(false);
+        jobButton.setFocusTraversable(false);
+        reportButton.setFocusTraversable(false);
+        masterFilesPane.setFocusTraversable(false);
+        masterProductButton.setFocusTraversable(false);
+        masterCustomerButton.setFocusTraversable(false);
+        masterSupplierButton.setFocusTraversable(false);
     }
 
     private void loadContent(String fxmlPath) {

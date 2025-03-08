@@ -27,16 +27,14 @@
 
             <!-- Master Files as a collapsible sub-menu -->
             <TitledPane fx:id="masterFilesPane" expanded="false" styleClass="titled-pane" text="📁 แฟ้มข้อมูลหลัก">
-                <content>
-                    <VBox spacing="5">
-                        <padding>
-                            <Insets bottom="5" left="5" right="5" top="5"/>
-                        </padding>
-                        <Button fx:id="masterProductButton" styleClass="nav-button-small" text="🎁 สินค้า"/>
-                        <Button fx:id="masterCustomerButton" styleClass="nav-button-small" text="👤 ลูกค้า"/>
-                        <Button fx:id="masterSupplierButton" styleClass="nav-button-small" text="🚚 ผู้จัดหา"/>
-                    </VBox>
-                </content>
+                <VBox spacing="5">
+                    <padding>
+                        <Insets bottom="5" left="5" right="5" top="5"/>
+                    </padding>
+                    <Button fx:id="masterProductButton" styleClass="nav-button-small" text="🎁 สินค้า"/>
+                    <Button fx:id="masterCustomerButton" styleClass="nav-button-small" text="👤 ลูกค้า"/>
+                    <Button fx:id="masterSupplierButton" styleClass="nav-button-small" text="🚚 ผู้จัดหา"/>
+                </VBox>
             </TitledPane>
         </VBox>
     </left>
