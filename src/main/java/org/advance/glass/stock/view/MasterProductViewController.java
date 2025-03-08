@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -75,6 +76,17 @@ public class MasterProductViewController {
 
         productTable.focusedProperty().addListener((obs, oldVal, newVal) -> {
             System.out.println("TableView focused: " + newVal);
+        });
+
+        productTable.setRowFactory(tv -> new TableRow<>() {
+            @Override
+            protected void updateItem(Product product, boolean empty) {
+                super.updateItem(product, empty);
+                getStyleClass().remove("edited-row"); // Remove any previous class
+                if (product != null && editedProducts.containsKey(product.getId())) {
+                    getStyleClass().add("edited-row"); // Add custom CSS class
+                }
+            }
         });
 
         productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -185,12 +197,29 @@ public class MasterProductViewController {
                     break;
             }
 
-            productTable.requestFocus();
+            editedProducts.put(product.getId(), product);
 
-//            updateProductApi(product); // ✅ Call API on edit
+            productTable.requestFocus();
 
             System.out.println("Updated Product: " + product);
         });
+    }
+
+    @FXML
+    public void handleUpdateAll() {
+        if (editedProducts.isEmpty()) {
+            System.out.println("No changes to update.");
+            return;
+        }
+
+        System.out.println("Updating " + editedProducts.size() + " products...");
+
+        for (Product product : editedProducts.values()) {
+            updateProductApi(product); // Call API for each edited product
+        }
+
+        editedProducts.clear(); // ✅ Clear memory after updating
+        productTable.refresh();
     }
 
     private static final String API_URL = "http://localhost:8080/api/products/";
@@ -215,22 +244,6 @@ public class MasterProductViewController {
         } catch (Exception ex) {
             System.out.println("❌ Error updating product: " + ex.getMessage());
         }
-    }
-
-    @FXML
-    public void handleUpdateAll() {
-        if (editedProducts.isEmpty()) {
-            System.out.println("No changes to update.");
-            return;
-        }
-
-        System.out.println("Updating " + editedProducts.size() + " products...");
-
-        for (Product product : editedProducts.values()) {
-            updateProductApi(product); // Call API for each edited product
-        }
-
-        editedProducts.clear(); // ✅ Clear memory after updating
     }
 
 }

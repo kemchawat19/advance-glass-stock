@@ -181,7 +181,7 @@
 
 /* ✅ Modern Buttons */
 .update-button {
-    -fx-background-color: #49bb5b; /* Primary Blue */
+    -fx-background-color: #77B254;
     -fx-text-fill: white;
     -fx-background-radius: 8px;
     /*-fx-padding: 10px 20px;*/
@@ -190,7 +190,7 @@
     -fx-font-weight: bold;
 }
 .update-button:hover {
-    -fx-background-color: #2B5ED6;
+    -fx-background-color: #6a9f4b;
 }
 
 /*!* 📊 Table Styling *!*/
@@ -277,4 +277,8 @@
 }
 .add-button:hover {
     -fx-background-color: #2563EB;
+}
+
+.edited-row {
+    -fx-background-color: #77B254;
 }
