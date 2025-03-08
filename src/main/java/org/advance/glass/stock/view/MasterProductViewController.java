@@ -6,11 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.advance.glass.stock.model.db.Product;
@@ -62,34 +61,79 @@ public class MasterProductViewController {
         productUnitColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         productStatusColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-//        productIdColumn.setMinWidth(80);
-//        productNameColumn.setMinWidth(150);
-//        productGroupColumn.setMinWidth(120);
-//        productUnitColumn.setMinWidth(120);
-//        productStatusColumn.setMinWidth(100);
-
-        // Make columns editable and add ENTER key event
+        // Enable row tracking
         setupEditableColumn(productNameColumn, "productName");
         setupEditableColumn(productGroupColumn, "productGroup");
         setupEditableColumn(productUnitColumn, "productUnit");
         setupEditableColumn(productStatusColumn, "productStatus");
 
-        productTable.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println("TableView focused: " + newVal);
-        });
-
+        // Apply row factory
         productTable.setRowFactory(tv -> new TableRow<>() {
+            private final Button updateButton = new Button("💾 บันทึก");
+
+            {
+                // ✅ Setup Button Action
+                updateButton.setOnAction(event -> {
+                    Product product = getItem();
+                    if (product != null) {
+                        updateProductApi(product);
+                        editedProducts.remove(product.getId()); // ✅ Remove from edited list after update
+                        productTable.refresh(); // ✅ Refresh UI
+                    }
+                });
+                updateButton.setStyle("-fx-background-color: #28a745; -fx-text-fill: white;");
+            }
+
             @Override
             protected void updateItem(Product product, boolean empty) {
                 super.updateItem(product, empty);
-                getStyleClass().remove("edited-row"); // Remove any previous class
-                if (product != null && editedProducts.containsKey(product.getId())) {
-                    getStyleClass().add("edited-row"); // Add custom CSS class
+                getStyleClass().removeAll("edited-row", "normal-row");
+
+                if (empty || product == null) {
+                    setGraphic(null); // Hide button for empty rows
+                    getStyleClass().add("normal-row");
+                } else {
+                    if (editedProducts.containsKey(product.getId())) {
+                        getStyleClass().add("edited-row"); // Apply edited row style
+
+                        // ✅ Wrap content in HBox to keep button floating next to row
+                        HBox rowContent = new HBox(10, updateButton);
+                        rowContent.setStyle("-fx-alignment: center-right; -fx-padding: 5px;");
+                        setGraphic(rowContent);
+                    } else {
+                        setGraphic(null); // Remove button if row is not edited
+                    }
                 }
             }
         });
+    }
 
-        productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    private TableColumn<Product, Void> getActionColumn() {
+        TableColumn<Product, Void> actionColumn = new TableColumn<>("Actions");
+        actionColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button updateButton = new Button("💾 บันทึก");
+
+            {
+                updateButton.setOnAction(event -> {
+                    Product product = getTableView().getItems().get(getIndex());
+                    updateProductApi(product);
+                    editedProducts.remove(product.getId()); // Remove from edited list after update
+                    productTable.refresh(); // Refresh UI
+                });
+                updateButton.setStyle("-fx-background-color: #28a745; -fx-text-fill: white;");
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || !editedProducts.containsKey(getTableView().getItems().get(getIndex()).getId())) {
+                    setGraphic(null); // Hide button if row is NOT edited
+                } else {
+                    setGraphic(updateButton); // Show button if row is edited
+                }
+            }
+        });
+        return actionColumn;
     }
 
     void fetchProductsFromApi() {
@@ -200,6 +244,7 @@ public class MasterProductViewController {
             editedProducts.put(product.getId(), product);
 
             productTable.requestFocus();
+            productTable.refresh();
 
             System.out.println("Updated Product: " + product);
         });

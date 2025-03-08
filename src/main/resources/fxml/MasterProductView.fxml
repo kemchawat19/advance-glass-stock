@@ -3,55 +3,43 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox alignment="CENTER" prefHeight="650.0" prefWidth="680.0" spacing="10" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.advance.glass.stock.view.MasterProductViewController">
+<VBox alignment="CENTER" prefHeight="650.0" prefWidth="680.0" spacing="10" xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.advance.glass.stock.view.MasterProductViewController">
     <padding>
-        <Insets bottom="20" left="20" right="20" top="20" />
+        <Insets bottom="20" left="20" right="20" top="20"/>
     </padding>
 
     <!-- 🏷 Header Section with Left Alignment -->
     <HBox spacing="10">
-        <Label styleClass="text-header" text="สินค้า" />
+        <Label styleClass="text-header" text="สินค้า"/>
     </HBox>
     <HBox prefHeight="26.0" prefWidth="58.0" spacing="20.0">
-        <TextField prefHeight="26.0" prefWidth="252.0" />
+        <TextField prefHeight="26.0" prefWidth="252.0"/>
         <!--        <Button onAction="#handleOpenAddProductDialog" styleClass="modern-button" text="+ New Product" />-->
-        <Button onAction="#handleOpenAddProductStage" styleClass="modern-button" text="เพิ่มสินค้า" />
-        <Button onAction="#handleUpdateAll" styleClass="update-button" text="แก้ไขสินค้า" />
+        <Button onAction="#handleOpenAddProductStage" styleClass="modern-button" text="เพิ่มสินค้า"/>
+        <Button onAction="#handleUpdateAll" styleClass="update-button" text="บันทึกสินค้า"/>
         <padding>
-         <Insets left="20.0" right="20.0" top="10.0" />
-      </padding>
+            <Insets left="20.0" right="20.0" top="10.0"/>
+        </padding>
     </HBox>
 
     <StackPane prefHeight="578.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
         <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="640.0" spacing="15">
-            <!-- Product Table -->
-<!--            <TableView fx:id="productTable" editable="true" prefHeight="558.0" prefWidth="600.0" />-->
-
-            <TableView fx:id="productTable" editable="true" prefHeight="558.0" prefWidth="600.0">
-                <columns>
-                    <TableColumn fx:id="productIdColumn" text="รหัสสินค้า"/>
-                    <TableColumn fx:id="productNameColumn" text="ชื่อสินค้า"/>
-                    <TableColumn fx:id="productGroupColumn" text="หมวดสินค้า"/>
-                    <TableColumn fx:id="productUnitColumn" text="หน่วยสินค้า"/>
-                    <TableColumn fx:id="productStatusColumn" text="สถานะสินค้า"/>
-                    <TableColumn fx:id="createTimeStampColumn" text="เวลาที่สร้างสินค้า"/>
-                </columns>
-            </TableView>
-
-
-            <Region prefHeight="20" />  <!-- Adds empty space -->
-
-<!--            <TextField fx:id="productNameField" alignment="CENTER" promptText="Product Name" />-->
-<!--            <TextField fx:id="productGroupField" alignment="CENTER" promptText="Product Group" />-->
-<!--            <TextField fx:id="productUnitField" alignment="CENTER" promptText="Product Unit" />-->
-
-<!--            <Button onAction="#handleAddProduct" styleClass="modern-button" text="Add Product" />-->
-<!--            <Button onAction="#handleUpdateProduct" styleClass="modern-button" text="Update Product" />-->
-<!--            <Button onAction="#handleSelectProduct" styleClass="modern-button" text="Select Product" />-->
-
-<!--            &lt;!&ndash; 🔘 New Product Input Form Below &ndash;&gt;-->
+            <ScrollPane fitToHeight="true" fitToWidth="true">
+                <TableView fx:id="productTable" editable="true" prefHeight="558.0" prefWidth="600.0">
+                    <columns>
+                        <TableColumn fx:id="productIdColumn" text="รหัสสินค้า" prefWidth="100"/>
+                        <TableColumn fx:id="productNameColumn" text="ชื่อสินค้า" prefWidth="150"/>
+                        <TableColumn fx:id="productGroupColumn" text="หมวดสินค้า" prefWidth="120"/>
+                        <TableColumn fx:id="productUnitColumn" text="หน่วยสินค้า" prefWidth="120"/>
+                        <TableColumn fx:id="productStatusColumn" text="สถานะสินค้า" prefWidth="100"/>
+                        <TableColumn fx:id="createTimeStampColumn" text="เวลาที่สร้างสินค้า" prefWidth="150"/>
+                    </columns>
+                </TableView>
+            </ScrollPane>
+            <Region prefHeight="20"/>  <!-- Adds empty space -->
             <padding>
-                <Insets bottom="20" left="20" right="20" top="20" />
+                <Insets bottom="20" left="20" right="20" top="20"/>
             </padding>
         </VBox>
     </StackPane>
