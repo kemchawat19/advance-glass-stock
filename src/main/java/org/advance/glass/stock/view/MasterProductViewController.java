@@ -35,6 +35,8 @@ public class MasterProductViewController {
     private TableColumn<Product, String> productStatusColumn;
     @FXML
     private TableColumn<Product, String> createTimeStampColumn;
+    @FXML
+    private TableColumn<Product, Void> actionColumn; // Declare in Controller
 
     private final Map<Long, Product> editedProducts = new HashMap<>(); // Store edited rows
 
@@ -60,14 +62,6 @@ public class MasterProductViewController {
         productGroupColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         productUnitColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         productStatusColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        // ✅ Set default column widths
-        productIdColumn.setPrefWidth(100);
-        productNameColumn.setPrefWidth(150);
-        productGroupColumn.setPrefWidth(120);
-        productUnitColumn.setPrefWidth(120);
-        productStatusColumn.setPrefWidth(100);
-        createTimeStampColumn.setPrefWidth(150);
 
         // Make columns editable and add ENTER key event
         setupEditableColumn(productNameColumn, "productName");
@@ -95,10 +89,8 @@ public class MasterProductViewController {
             }
         });
 
-        // 🔹 Add "Update" Button Column
-        TableColumn<Product, Void> actionColumn = getActionColumn();
-
-        productTable.getColumns().add(actionColumn);
+        // ✅ Assign custom button cell to `actionColumn`
+        setupActionColumn();
 
         // ✅ Automatically Resize Columns When Table Resizes
         productTable.widthProperty().addListener((obs, oldWidth, newWidth) -> adjustColumnResizePolicy());
@@ -107,24 +99,49 @@ public class MasterProductViewController {
     // ✅ Dynamically Adjust Column Widths When Table Size Changes
     private void adjustColumnResizePolicy() {
         double tableWidth = productTable.getWidth();
-        double totalFixedWidth = 100 + 150 + 120 + 120 + 100 + 150; // Sum of default column widths
+        double totalFixedWidth = 100 + 150 + 120 + 120 + 100 + 150 + 70; // Sum of default column widths
+
+        System.out.println("tableWidth = " + tableWidth);
+        System.out.println("totalFixedWidth = " + totalFixedWidth);
 
         if (tableWidth >= totalFixedWidth) {
             // ✅ If columns fit inside table, use CONSTRAINED_RESIZE_POLICY
             productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            // ✅ Set default column widths
+            productIdColumn.setPrefWidth(100);
+            productIdColumn.setResizable(false);
+            productNameColumn.setPrefWidth(250);
+            productNameColumn.setResizable(false);
+            createTimeStampColumn.setPrefWidth(200);
+            createTimeStampColumn.setResizable(false);
+            actionColumn.setPrefWidth(120);
+            actionColumn.setResizable(false);
+
+            // Allow the other columns to auto-resize
+            productGroupColumn.setResizable(true);
+            productUnitColumn.setResizable(true);
+            productStatusColumn.setResizable(true);
         } else {
             // ✅ If columns overflow, reset to default widths (enables scrollbar)
             productTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-            for (TableColumn<?, ?> column : productTable.getColumns()) {
-                column.setPrefWidth(column.getPrefWidth()); // Keep original prefWidth
-            }
+//            for (TableColumn<?, ?> column : productTable.getColumns()) {
+//                column.setPrefWidth(column.getPrefWidth()); // Keep original prefWidth
+//            }
+            // ✅ Keep the predefined column widths
+            productIdColumn.setPrefWidth(100);
+            productNameColumn.setPrefWidth(150);
+            productGroupColumn.setPrefWidth(120);
+            productUnitColumn.setPrefWidth(120);
+            productStatusColumn.setPrefWidth(100);
+            createTimeStampColumn.setPrefWidth(150);
+            actionColumn.setPrefWidth(70);
         }
     }
 
-    private TableColumn<Product, Void> getActionColumn() {
-        TableColumn<Product, Void> actionColumn = new TableColumn<>();
-        actionColumn.setPrefWidth(100); // Adjust width if needed
-
+    /**
+     * ✅ Assigns a button to each row
+     */
+    private void setupActionColumn() {
         actionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button updateButton = new Button("💾 บันทึก");
 
@@ -146,16 +163,38 @@ public class MasterProductViewController {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || !editedProducts.containsKey(getTableView().getItems().get(getIndex()).getId())) {
-                    setGraphic(null); // Hide button if row is NOT edited
+                if (empty) {
+                    setGraphic(null); // Hide button for empty rows
                 } else {
+                    Product product = getTableView().getItems().get(getIndex());
+
+                    // ✅ Enable button ONLY IF row is edited
+                    boolean isEdited = editedProducts.containsKey(product.getId());
+                    updateButton.setDisable(!isEdited);
+
+                    // 🔹 Change button color when disabled
+                    if (isEdited) {
+                        updateButton.setStyle(
+                                "-fx-background-color: #28a745; " + // Green when enabled
+                                        "-fx-text-fill: white; " +
+                                        "-fx-font-size: 12px; " +
+                                        "-fx-background-radius: 5px;"
+                        );
+                    } else {
+                        updateButton.setStyle(
+                                "-fx-background-color: #B0B0B0; " + // Gray when disabled
+                                        "-fx-text-fill: white; " +
+                                        "-fx-font-size: 12px; " +
+                                        "-fx-background-radius: 5px;"
+                        );
+                    }
+
                     HBox container = new HBox(updateButton);
-                    container.setStyle("-fx-alignment: center;"); // Align button to the right
-                    setGraphic(container); // Display button inside row
+                    container.setStyle("-fx-alignment: center;"); // Align button
+                    setGraphic(container);
                 }
             }
         });
-        return actionColumn;
     }
 
     void fetchProductsFromApi() {
