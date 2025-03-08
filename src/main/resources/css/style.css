@@ -179,6 +179,20 @@
     -fx-background-color: #2B5ED6;
 }
 
+/* ✅ Modern Buttons */
+.update-button {
+    -fx-background-color: #49bb5b; /* Primary Blue */
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    /*-fx-padding: 10px 20px;*/
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.update-button:hover {
+    -fx-background-color: #2B5ED6;
+}
+
 /*!* 📊 Table Styling *!*/
 /*.table-view {*/
 /*    -fx-background-color: white;*/

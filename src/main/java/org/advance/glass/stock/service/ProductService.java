@@ -23,7 +23,7 @@ public class ProductService {
                 .productName(productReqDto.getProductName())
                 .productGroup(productReqDto.getProductGroup())
                 .productUnit(productReqDto.getProductUnit())
-                .productStatus(productReqDto.getStatus() != null ? productReqDto.getStatus() : ProductStatus.ACTIVE.name())
+                .productStatus(productReqDto.getProductStatus() != null ? productReqDto.getProductStatus() : ProductStatus.ACTIVE.name())
                 .build();
         return productRepository.save(product);
     }
@@ -46,7 +46,7 @@ public class ProductService {
         product.setProductName(productReqDto.getProductName());
         product.setProductGroup(productReqDto.getProductGroup());
         product.setProductUnit(productReqDto.getProductUnit());
-        product.setProductStatus(productReqDto.getStatus());
+        product.setProductStatus(productReqDto.getProductStatus());
         return productRepository.save(product);
     }
 
@@ -70,7 +70,7 @@ public class ProductService {
                         .productName(productReqDto.getProductName())
                         .productGroup(productReqDto.getProductGroup())
                         .productUnit(productReqDto.getProductUnit())
-                        .productStatus(productReqDto.getStatus() != null ? productReqDto.getStatus() : ProductStatus.ACTIVE.name())
+                        .productStatus(productReqDto.getProductStatus() != null ? productReqDto.getProductStatus() : ProductStatus.ACTIVE.name())
                         .build())
                 .toList();
         return productRepository.saveAll(products);

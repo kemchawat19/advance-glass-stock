@@ -8,35 +8,35 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.advance.glass.stock.model.db.Product;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class MasterProductViewController {
 
     @FXML
     private TableView<Product> productTable;
     @FXML
-    private TextField productIdField;
+    private TableColumn<Product, Long> productIdColumn;
     @FXML
-    private TextField productNameField;
+    private TableColumn<Product, String> productNameColumn;
     @FXML
-    private TextField productGroupField;
+    private TableColumn<Product, String> productGroupColumn;
     @FXML
-    private TextField productUnitField;
+    private TableColumn<Product, String> productUnitColumn;
+    @FXML
+    private TableColumn<Product, String> productStatusColumn;
+    @FXML
+    private TableColumn<Product, String> createTimeStampColumn;
+
+    private final Map<Long, Product> editedProducts = new HashMap<>(); // Store edited rows
 
     @FXML
     public void initialize() {
@@ -45,15 +45,9 @@ public class MasterProductViewController {
     }
 
     private void setupTable() {
-        // Define table columns
-        TableColumn<Product, Long> productIdColumn = new TableColumn<>("รหัสสินค้า");
-        TableColumn<Product, String> productNameColumn = new TableColumn<>("ชื่อสินค้า");
-        TableColumn<Product, String> productGroupColumn = new TableColumn<>("หมวดสินค้า");
-        TableColumn<Product, String> productUnitColumn = new TableColumn<>("หน่วยสินค้า");
-        TableColumn<Product, String> productStatusColumn = new TableColumn<>("สถานะสินค้า");
-        TableColumn<Product, String> createTimeStampColumn = new TableColumn<>("เวลาที่สร้างสินค้า");
+        productTable.setEditable(true); // Enable editing
 
-        // Set column mappings
+        // Set up columns
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         productGroupColumn.setCellValueFactory(new PropertyValueFactory<>("productGroup"));
@@ -61,28 +55,29 @@ public class MasterProductViewController {
         productStatusColumn.setCellValueFactory(new PropertyValueFactory<>("productStatus"));
         createTimeStampColumn.setCellValueFactory(new PropertyValueFactory<>("createTimeStamp"));
 
+        // Make columns editable
+        productNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        productGroupColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        productUnitColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        productStatusColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
 //        productIdColumn.setMinWidth(80);
 //        productNameColumn.setMinWidth(150);
 //        productGroupColumn.setMinWidth(120);
 //        productUnitColumn.setMinWidth(120);
 //        productStatusColumn.setMinWidth(100);
 
-        // ✅ Ensure Table Auto-resizes the Columns
+        // Make columns editable and add ENTER key event
+        setupEditableColumn(productNameColumn, "productName");
+        setupEditableColumn(productGroupColumn, "productGroup");
+        setupEditableColumn(productUnitColumn, "productUnit");
+        setupEditableColumn(productStatusColumn, "productStatus");
+
+        productTable.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            System.out.println("TableView focused: " + newVal);
+        });
+
         productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        // Add columns to table
-        Collections.addAll(productTable.getColumns(), productIdColumn, productNameColumn, productGroupColumn, productUnitColumn, productStatusColumn, createTimeStampColumn);
-    }
-
-    @FXML
-    public void handleUpdateProduct() {
-        String productName = productNameField.getText();
-        String productGroup = productGroupField.getText();
-        String productUnit = productUnitField.getText();
-
-        System.out.println("Updating Product: " + productName + ", " + productGroup + ", " + productUnit);
-
-        // TODO: Call ProductService to update database
     }
 
     void fetchProductsFromApi() {
@@ -103,81 +98,6 @@ public class MasterProductViewController {
             System.out.println("Error fetching products: " + ex.getMessage());
         }
     }
-
-    @FXML
-    public void handleSelectProduct() {
-        // Get selected row data
-        Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
-
-        if (selectedProduct != null) {
-            System.out.println("Selected Product ID: " + selectedProduct.getId());
-            System.out.println("Product Name: " + selectedProduct.getProductName());
-            System.out.println("Product Group: " + selectedProduct.getProductGroup());
-            System.out.println("Product Unit: " + selectedProduct.getProductUnit());
-            System.out.println("Product Status: " + selectedProduct.getProductStatus());
-
-            // Set values to input fields
-            productIdField.setText(String.valueOf(selectedProduct.getId()));
-            productNameField.setText(selectedProduct.getProductName());
-            productGroupField.setText(selectedProduct.getProductGroup());
-            productUnitField.setText(selectedProduct.getProductUnit());
-        } else {
-            System.out.println("No product selected!");
-        }
-    }
-
-//    @FXML
-//    public void handleOpenAddProductDialog() {
-//        Dialog<Product> dialog = new Dialog<>();
-//        dialog.setTitle("Add New Product");
-//
-//        // Add UI Fields
-//        DialogPane dialogPane = dialog.getDialogPane();
-//
-//        VBox content = new VBox(10);
-//        TextField nameField = new TextField();
-//        nameField.setPromptText("Product Name");
-//
-//        TextField groupField = new TextField();
-//        groupField.setPromptText("Product Group");
-//
-//        TextField unitField = new TextField();
-//        unitField.setPromptText("Product Unit");
-//
-//        content.getChildren().addAll(new Label("Enter Product Details:"), nameField, groupField, unitField);
-//
-//        // 🏷️ Set Dialog Size
-//        dialogPane.setMinSize(400, 300);
-//
-//        dialogPane.setContent(content);
-//
-//        // 🔹 Manually Create Buttons (Centered)
-//        Button okButton = new Button("OK");
-//        Button cancelButton = new Button("Cancel");
-//
-//        HBox buttonBox = new HBox(15, cancelButton, okButton);
-//        buttonBox.setAlignment(Pos.CENTER);
-//        buttonBox.setPadding(new Insets(10, 0, 0, 0));
-//
-//        VBox layout = new VBox(content, buttonBox);
-//        layout.setAlignment(Pos.CENTER);
-//
-//        dialogPane.setContent(layout);
-//
-//        // 🔹 Handle Button Actions
-//        okButton.setOnAction(e -> {
-//            dialog.setResult(new Product(
-//                    null, nameField.getText(), groupField.getText(), unitField.getText(),
-//                    "ACTIVE", LocalDateTime.now(), LocalDateTime.now()
-//            ));
-//            dialog.close(); // ✅ Close dialog after OK
-//        });
-//
-//        cancelButton.setOnAction(e -> dialog.close()); // ✅ Close dialog on Cancel
-//
-//        dialog.showAndWait().ifPresent(this::sendProductToApi);
-//    }
-
 
     /**
      * ✅ Send Single Product to API
@@ -202,28 +122,6 @@ public class MasterProductViewController {
         }
     }
 
-    @FXML
-    public void handleAddProduct() {
-        String name = productNameField.getText();
-        String group = productGroupField.getText();
-        String unit = productUnitField.getText();
-
-        if (name.isEmpty() || group.isEmpty() || unit.isEmpty()) {
-            System.out.println("Please fill all fields!");
-            return;
-        }
-
-        Product newProduct = new Product(null, name, group, unit, "ACTIVE", LocalDateTime.now(), LocalDateTime.now());
-
-        sendProductToApi(newProduct);
-        scrollToLastRow();
-
-        // Clear input fields after saving
-        productNameField.clear();
-        productGroupField.clear();
-        productUnitField.clear();
-    }
-
     void scrollToLastRow() {
         if (!productTable.getItems().isEmpty()) {
             int lastRowIndex = productTable.getItems().size() - 1;
@@ -244,7 +142,7 @@ public class MasterProductViewController {
 
             // Apply CSS Manually (Debugging Step)
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm());
 
             // Create a new Stage (Window)
             Stage stage = new Stage();
@@ -263,6 +161,76 @@ public class MasterProductViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setupEditableColumn(TableColumn<Product, String> column, String property) {
+        column.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        column.setOnEditCommit(event -> {
+            Product product = event.getRowValue();
+            String newValue = event.getNewValue();
+
+            switch (property) {
+                case "productName":
+                    product.setProductName(newValue);
+                    break;
+                case "productGroup":
+                    product.setProductGroup(newValue);
+                    break;
+                case "productUnit":
+                    product.setProductUnit(newValue);
+                    break;
+                case "productStatus":
+                    product.setProductStatus(newValue);
+                    break;
+            }
+
+            productTable.requestFocus();
+
+//            updateProductApi(product); // ✅ Call API on edit
+
+            System.out.println("Updated Product: " + product);
+        });
+    }
+
+    private static final String API_URL = "http://localhost:8080/api/products/";
+
+    private void updateProductApi(Product product) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+            String url = API_URL + product.getId();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Product> requestEntity = new HttpEntity<>(product, headers);
+
+            ResponseEntity<Product> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Product.class);
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                System.out.println("✅ Product updated successfully!");
+            } else {
+                System.out.println("❌ Failed to update product.");
+            }
+        } catch (Exception ex) {
+            System.out.println("❌ Error updating product: " + ex.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleUpdateAll() {
+        if (editedProducts.isEmpty()) {
+            System.out.println("No changes to update.");
+            return;
+        }
+
+        System.out.println("Updating " + editedProducts.size() + " products...");
+
+        for (Product product : editedProducts.values()) {
+            updateProductApi(product); // Call API for each edited product
+        }
+
+        editedProducts.clear(); // ✅ Clear memory after updating
     }
 
 }

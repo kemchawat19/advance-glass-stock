@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <VBox alignment="CENTER" prefHeight="650.0" prefWidth="680.0" spacing="10" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.advance.glass.stock.view.MasterProductViewController">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
@@ -23,7 +16,8 @@
         <TextField prefHeight="26.0" prefWidth="252.0" />
         <!--        <Button onAction="#handleOpenAddProductDialog" styleClass="modern-button" text="+ New Product" />-->
         <Button onAction="#handleOpenAddProductStage" styleClass="modern-button" text="เพิ่มสินค้า" />
-      <padding>
+        <Button onAction="#handleUpdateAll" styleClass="update-button" text="แก้ไขสินค้า" />
+        <padding>
          <Insets left="20.0" right="20.0" top="10.0" />
       </padding>
     </HBox>
@@ -31,7 +25,19 @@
     <StackPane prefHeight="578.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
         <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="640.0" spacing="15">
             <!-- Product Table -->
-            <TableView fx:id="productTable" prefHeight="558.0" prefWidth="600.0" />
+<!--            <TableView fx:id="productTable" editable="true" prefHeight="558.0" prefWidth="600.0" />-->
+
+            <TableView fx:id="productTable" editable="true" prefHeight="558.0" prefWidth="600.0">
+                <columns>
+                    <TableColumn fx:id="productIdColumn" text="รหัสสินค้า"/>
+                    <TableColumn fx:id="productNameColumn" text="ชื่อสินค้า"/>
+                    <TableColumn fx:id="productGroupColumn" text="หมวดสินค้า"/>
+                    <TableColumn fx:id="productUnitColumn" text="หน่วยสินค้า"/>
+                    <TableColumn fx:id="productStatusColumn" text="สถานะสินค้า"/>
+                    <TableColumn fx:id="createTimeStampColumn" text="เวลาที่สร้างสินค้า"/>
+                </columns>
+            </TableView>
+
 
             <Region prefHeight="20" />  <!-- Adds empty space -->
 

@@ -13,5 +13,5 @@ public class ProductReqDto {
     private String productName;
     private String productGroup;
     private String productUnit;
-    private String status;
+    private String productStatus;
 }
