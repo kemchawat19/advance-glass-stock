@@ -192,6 +192,18 @@
 .update-button:hover {
     -fx-background-color: #6a9f4b;
 }
+.copy-button {
+    -fx-background-color: #d3983a;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    /*-fx-padding: 10px 20px;*/
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.copy-button:hover {
+    -fx-background-color: #c48d36;
+}
 
 /*!* 📊 Table Styling *!*/
 /*.table-view {*/

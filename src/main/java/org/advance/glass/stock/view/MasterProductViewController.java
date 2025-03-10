@@ -135,9 +135,8 @@ public class MasterProductViewController {
         }
     }
 
-    /**
-     * ✅ Assigns a button to each row
-     */
+    private long newProductIdCounter = -1; // Negative IDs for duplicated rows
+
     private void setupActionColumn() {
         actionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button updateButton = new Button("💾 บันทึก");
@@ -145,13 +144,17 @@ public class MasterProductViewController {
             {
                 updateButton.setOnAction(event -> {
                     Product product = getTableView().getItems().get(getIndex());
-                    updateProductApi(product);
-                    editedProducts.remove(product.getId()); // Remove from edited list after update
-                    productTable.refresh(); // Refresh UI
+
+                    // ✅ If the row is NEW (negative ID), call CREATE API
+                    if (product.getId() < 0) {
+                        sendProductToApi(product);
+                    } else {
+                        updateProductApi(product);
+                    }
                 });
+
                 updateButton.setStyle(
-                        "-fx-background-color: #28a745; " +
-                                "-fx-text-fill: white; " +
+                        "-fx-text-fill: white; " +
                                 "-fx-font-size: 12px; " +
                                 "-fx-background-radius: 5px;"
                 );
@@ -169,7 +172,7 @@ public class MasterProductViewController {
                     boolean isEdited = editedProducts.containsKey(product.getId());
                     updateButton.setDisable(!isEdited);
 
-                    // 🔹 Change button color when disabled
+                    // 🔹 Change button color based on state
                     if (isEdited) {
                         updateButton.setStyle(
                                 "-fx-background-color: #28a745; " + // Green when enabled
@@ -186,8 +189,9 @@ public class MasterProductViewController {
                         );
                     }
 
+                    // ✅ Align button properly
                     HBox container = new HBox(updateButton);
-                    container.setStyle("-fx-alignment: center;"); // Align button
+                    container.setStyle("-fx-alignment: center;");
                     setGraphic(container);
                 }
             }
@@ -195,6 +199,7 @@ public class MasterProductViewController {
     }
 
     void fetchProductsFromApi() {
+        System.out.println("fetchProductsFromApi");
         RestTemplate restTemplate = new RestTemplate();
         try {
             // API Endpoint
@@ -227,7 +232,14 @@ public class MasterProductViewController {
             ResponseEntity<Product> response = restTemplate.postForEntity(API_URL, requestEntity, Product.class);
             if (response.getStatusCode().is2xxSuccessful()) {
                 System.out.println("Product added successfully!");
-                fetchProductsFromApi(); // Refresh table
+
+                editedProducts.remove(product.getId()); // ✅ Remove using correct Long key
+
+                if (editedProducts.isEmpty()) {
+                    fetchProductsFromApi(); // Refresh table
+                } else {
+                    productTable.refresh(); // ✅ Only refresh the UI if not all updates are done
+                }
             } else {
                 System.out.println("Failed to create product.");
             }
@@ -301,6 +313,8 @@ public class MasterProductViewController {
 
             editedProducts.put(product.getId(), product);
 
+            System.out.println("editedProducts setupEditableColumn = " + editedProducts);
+
             productTable.requestFocus();
             productTable.refresh();
 
@@ -317,11 +331,26 @@ public class MasterProductViewController {
 
         System.out.println("Updating " + editedProducts.size() + " products...");
 
-        for (Product product : editedProducts.values()) {
-            updateProductApi(product); // Call API for each edited product
+        // ✅ Create a separate list of product IDs to avoid ConcurrentModificationException
+        List<Long> productIds = new ArrayList<>(editedProducts.keySet());
+
+        for (Long productId : productIds) {
+            Product product = editedProducts.get(productId);
+            if (product == null) continue;
+
+            System.out.println("Updating product: " + product);
+
+            if (product.getId() < 0) {
+                sendProductToApi(product);
+            } else {
+                updateProductApi(product);
+            }
+
+            // ✅ Remove only after API call
+            editedProducts.remove(productId);
         }
 
-        editedProducts.clear(); // ✅ Clear memory after updating
+        // ✅ Refresh the table AFTER all updates are done
         productTable.refresh();
     }
 
@@ -341,6 +370,14 @@ public class MasterProductViewController {
 
             if (response.getStatusCode().is2xxSuccessful()) {
                 System.out.println("✅ Product updated successfully!");
+
+                editedProducts.remove(product.getId()); // ✅ Remove using correct Long key
+
+                if (editedProducts.isEmpty()) {
+                    fetchProductsFromApi(); // Refresh table
+                } else {
+                    productTable.refresh(); // ✅ Only refresh the UI if not all updates are done
+                }
             } else {
                 System.out.println("❌ Failed to update product.");
             }
@@ -349,4 +386,35 @@ public class MasterProductViewController {
         }
     }
 
+    @FXML
+    private void handleCopyRow() {
+        Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
+
+        if (selectedProduct == null) {
+            System.out.println("❌ No row selected to copy.");
+            return;
+        }
+
+        // ✅ Create a new Product with a unique temporary ID
+        Product duplicatedProduct = new Product();
+        duplicatedProduct.setId(newProductIdCounter--); // Decrement to ensure unique ID
+        duplicatedProduct.setProductName(selectedProduct.getProductName());
+        duplicatedProduct.setProductGroup(selectedProduct.getProductGroup());
+        duplicatedProduct.setProductUnit(selectedProduct.getProductUnit());
+        duplicatedProduct.setProductStatus(selectedProduct.getProductStatus());
+        duplicatedProduct.setCreateTimeStamp(selectedProduct.getCreateTimeStamp());
+
+        // ✅ Add duplicated row to table
+        productTable.getItems().add(duplicatedProduct);
+
+        // ✅ Store duplicated row using Long key (ID-based)
+        editedProducts.put(duplicatedProduct.getId(), duplicatedProduct);
+
+        // ✅ Refresh table to reflect new row
+        productTable.refresh();
+
+        scrollToLastRow();
+
+        System.out.println("✅ Copied Row: " + duplicatedProduct);
+    }
 }

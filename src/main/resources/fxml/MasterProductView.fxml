@@ -18,6 +18,7 @@
         <!--        <Button onAction="#handleOpenAddProductDialog" styleClass="modern-button" text="+ New Product" />-->
         <Button onAction="#handleOpenAddProductStage" styleClass="modern-button" text="เพิ่มสินค้า"/>
         <Button onAction="#handleUpdateAll" styleClass="update-button" text="บันทึกสินค้า"/>
+        <Button onAction="#handleCopyRow" styleClass="copy-button" text="คัดลอกสินค้า"/>
         <padding>
             <Insets left="20.0" right="20.0" top="10.0"/>
         </padding>

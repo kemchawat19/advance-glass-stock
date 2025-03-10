@@ -75,18 +75,4 @@ public class ProductService {
                 .toList();
         return productRepository.saveAll(products);
     }
-
-//    public Product getOrCreateProduct(Long productId) {
-//        return productRepository.findById(productId)
-//                .orElseGet(() -> {
-//                    Product newProduct = Product.builder()
-//                            .id(productId)
-//                            .productName("Default Product")
-//                            .productGroup("Uncategorized")
-//                            .productUnit("pcs")
-//                            .status("ACTIVE")
-//                            .build();
-//                    return productRepository.save(newProduct);
-//                });
-//    }
 }
