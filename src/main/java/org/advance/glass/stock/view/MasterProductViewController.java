@@ -124,9 +124,6 @@ public class MasterProductViewController {
         } else {
             // ✅ If columns overflow, reset to default widths (enables scrollbar)
             productTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-//            for (TableColumn<?, ?> column : productTable.getColumns()) {
-//                column.setPrefWidth(column.getPrefWidth()); // Keep original prefWidth
-//            }
             // ✅ Keep the predefined column widths
             productIdColumn.setPrefWidth(100);
             productNameColumn.setPrefWidth(150);
