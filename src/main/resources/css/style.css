@@ -204,21 +204,33 @@
 .copy-button:hover {
     -fx-background-color: #c48d36;
 }
-
-/*!* 📊 Table Styling *!*/
-/*.table-view {*/
-/*    -fx-background-color: white;*/
-/*    -fx-border-color: #BDC3C7;*/
-/*    -fx-border-radius: 5px;*/
-/*}*/
-/*.table-view .column-header {*/
-/*    -fx-background-color: #ECF0F1;*/
-/*    -fx-text-fill: #2C3E50;*/
-/*    -fx-font-weight: bold;*/
-/*}*/
-/*.table-row-cell:hover {*/
-/*    -fx-background-color: #F0F5FF;*/
-/*}*/
+/* Action Button */
+.action-update-button {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-background-radius: 5px;
+}
+.action-update-button:disabled {
+    -fx-background-color: #B0B0B0; /* Gray */
+    -fx-text-fill: white;
+}
+.action-update-button:hover {
+    -fx-background-color: #218838;
+}
+.action-delete-button {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-background-radius: 5px;
+}
+.action-delete-button:disabled {
+    -fx-background-color: #B0B0B0; /* Gray */
+    -fx-text-fill: white;
+}
+.action-delete-button:hover {
+    -fx-background-color: #c82333;
+}
 
 /* ⚡ Status Bar */
 .status-bar {

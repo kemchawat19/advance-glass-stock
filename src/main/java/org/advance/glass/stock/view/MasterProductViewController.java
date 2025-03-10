@@ -99,7 +99,7 @@ public class MasterProductViewController {
     // ✅ Dynamically Adjust Column Widths When Table Size Changes
     private void adjustColumnResizePolicy() {
         double tableWidth = productTable.getWidth();
-        double totalFixedWidth = 100 + 150 + 120 + 120 + 100 + 150 + 70; // Sum of default column widths
+        double totalFixedWidth = 100 + 150 + 120 + 120 + 100 + 150 + 150; // Sum of default column widths
 
         System.out.println("tableWidth = " + tableWidth);
         System.out.println("totalFixedWidth = " + totalFixedWidth);
@@ -110,17 +110,20 @@ public class MasterProductViewController {
             // ✅ Set default column widths
             productIdColumn.setPrefWidth(100);
             productIdColumn.setResizable(false);
-            productNameColumn.setPrefWidth(250);
+            productNameColumn.setPrefWidth(330);
             productNameColumn.setResizable(false);
-            createTimeStampColumn.setPrefWidth(200);
+            createTimeStampColumn.setPrefWidth(170);
             createTimeStampColumn.setResizable(false);
-            actionColumn.setPrefWidth(120);
+            actionColumn.setPrefWidth(140);
             actionColumn.setResizable(false);
 
             // Allow the other columns to auto-resize
-            productGroupColumn.setResizable(true);
-            productUnitColumn.setResizable(true);
-            productStatusColumn.setResizable(true);
+            productGroupColumn.setPrefWidth(150);
+            productGroupColumn.setResizable(false);
+            productUnitColumn.setPrefWidth(150);
+            productUnitColumn.setResizable(false);
+            productStatusColumn.setPrefWidth(150);
+            productStatusColumn.setResizable(false);
         } else {
             // ✅ If columns overflow, reset to default widths (enables scrollbar)
             productTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
@@ -131,7 +134,7 @@ public class MasterProductViewController {
             productUnitColumn.setPrefWidth(120);
             productStatusColumn.setPrefWidth(100);
             createTimeStampColumn.setPrefWidth(150);
-            actionColumn.setPrefWidth(70);
+            actionColumn.setPrefWidth(150);
         }
     }
 
@@ -140,8 +143,12 @@ public class MasterProductViewController {
     private void setupActionColumn() {
         actionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button updateButton = new Button("💾 บันทึก");
+            private final Button deleteButton = new Button("🗑️ ลบ");
 
             {
+                updateButton.getStyleClass().add("action-update-button");
+                deleteButton.getStyleClass().add("action-delete-button");
+
                 updateButton.setOnAction(event -> {
                     Product product = getTableView().getItems().get(getIndex());
 
@@ -153,11 +160,17 @@ public class MasterProductViewController {
                     }
                 });
 
-                updateButton.setStyle(
-                        "-fx-text-fill: white; " +
-                                "-fx-font-size: 12px; " +
-                                "-fx-background-radius: 5px;"
-                );
+                // ✅ Delete button logic (only works when editedProducts is empty)
+                deleteButton.setOnAction(event -> {
+                    Product product = getTableView().getItems().get(getIndex());
+
+                    if (!editedProducts.isEmpty()) {
+                        System.out.println("❌ Cannot delete while editing.");
+                        return;
+                    }
+
+                    deleteProductApi(product);
+                });
             }
 
             @Override
@@ -168,29 +181,12 @@ public class MasterProductViewController {
                 } else {
                     Product product = getTableView().getItems().get(getIndex());
 
-                    // ✅ Enable button ONLY IF row is edited
-                    boolean isEdited = editedProducts.containsKey(product.getId());
-                    updateButton.setDisable(!isEdited);
+                    updateButton.setDisable(!editedProducts.containsKey(product.getId()));
 
-                    // 🔹 Change button color based on state
-                    if (isEdited) {
-                        updateButton.setStyle(
-                                "-fx-background-color: #28a745; " + // Green when enabled
-                                        "-fx-text-fill: white; " +
-                                        "-fx-font-size: 12px; " +
-                                        "-fx-background-radius: 5px;"
-                        );
-                    } else {
-                        updateButton.setStyle(
-                                "-fx-background-color: #B0B0B0; " + // Gray when disabled
-                                        "-fx-text-fill: white; " +
-                                        "-fx-font-size: 12px; " +
-                                        "-fx-background-radius: 5px;"
-                        );
-                    }
+                    deleteButton.setDisable(!editedProducts.isEmpty());
 
                     // ✅ Align button properly
-                    HBox container = new HBox(updateButton);
+                    HBox container = new HBox(5, updateButton, deleteButton);
                     container.setStyle("-fx-alignment: center;");
                     setGraphic(container);
                 }
@@ -237,9 +233,8 @@ public class MasterProductViewController {
 
                 if (editedProducts.isEmpty()) {
                     fetchProductsFromApi(); // Refresh table
-                } else {
-                    productTable.refresh(); // ✅ Only refresh the UI if not all updates are done
                 }
+                productTable.refresh();
             } else {
                 System.out.println("Failed to create product.");
             }
@@ -354,13 +349,11 @@ public class MasterProductViewController {
         productTable.refresh();
     }
 
-    private static final String API_URL = "http://localhost:8080/api/products/";
-
     private void updateProductApi(Product product) {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            String url = API_URL + product.getId();
+            String url = "http://localhost:8080/api/products/" + product.getId();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -375,9 +368,8 @@ public class MasterProductViewController {
 
                 if (editedProducts.isEmpty()) {
                     fetchProductsFromApi(); // Refresh table
-                } else {
-                    productTable.refresh(); // ✅ Only refresh the UI if not all updates are done
                 }
+                productTable.refresh();
             } else {
                 System.out.println("❌ Failed to update product.");
             }
@@ -416,5 +408,35 @@ public class MasterProductViewController {
         scrollToLastRow();
 
         System.out.println("✅ Copied Row: " + duplicatedProduct);
+    }
+
+    private void deleteProductApi(Product product) {
+        if (product.getId() < 0) {
+            System.out.println("❌ Cannot delete unsaved product.");
+            return;
+        }
+
+        try {
+            String API_URL = "http://localhost:8080/api/products/" + product.getId();
+            RestTemplate restTemplate = new RestTemplate();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<Void> response = restTemplate.exchange(API_URL, HttpMethod.DELETE, requestEntity, Void.class);
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                System.out.println("✅ Product deleted successfully!");
+
+                // ✅ Remove the product from TableView
+                productTable.getItems().remove(product);
+                productTable.refresh();
+            } else {
+                System.out.println("❌ Failed to delete product.");
+            }
+        } catch (Exception ex) {
+            System.out.println("❌ Error deleting product: " + ex.getMessage());
+        }
     }
 }
