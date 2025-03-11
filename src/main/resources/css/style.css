@@ -306,3 +306,32 @@
 .edited-row {
     -fx-background-color: #77B254;
 }
+
+/* 🎨 Search Field Styling */
+.search-textfield {
+    -fx-background-color: #F8F8F8;
+    -fx-border-color: #7F8C8D;
+    -fx-border-radius: 8px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* When focused (clicked or typing) */
+.search-textfield:focused {
+    -fx-background-color: #F8F8F8;
+    -fx-border-color: #0056b3; /* Darker Blue Border */
+    -fx-border-width: 1px;
+}
+
+/* Placeholder Text Styling */
+.search-textfield .text {
+    -fx-fill: gray; /* Gray text color */
+}
+
+/* Add a slight shadow effect */
+.search-textfield:hover {
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 123, 255, 0.3), 8, 0, 0, 0);
+}

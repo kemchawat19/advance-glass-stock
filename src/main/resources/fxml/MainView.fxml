@@ -33,7 +33,7 @@
                     </padding>
                     <Button fx:id="masterProductButton" styleClass="nav-button-small" text="🎁 สินค้า"/>
                     <Button fx:id="masterCustomerButton" styleClass="nav-button-small" text="👤 ลูกค้า"/>
-                    <Button fx:id="masterSupplierButton" styleClass="nav-button-small" text="🚚 ผู้จัดหา"/>
+                    <Button fx:id="masterSupplierButton" styleClass="nav-button-small" text="🚚 ผู้จำหน่าย"/>
                 </VBox>
             </TitledPane>
         </VBox>

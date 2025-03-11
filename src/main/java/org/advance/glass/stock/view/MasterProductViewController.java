@@ -36,6 +36,8 @@ public class MasterProductViewController {
     @FXML
     private TableColumn<Product, String> createTimeStampColumn;
     @FXML
+    private TextField searchNameField;
+    @FXML
     private TableColumn<Product, Void> actionColumn; // Declare in Controller
 
     private final Map<Long, Product> editedProducts = new HashMap<>(); // Store edited rows
@@ -44,6 +46,7 @@ public class MasterProductViewController {
     public void initialize() {
         setupTable();
         fetchProductsFromApi();
+        setupSearchField();
     }
 
     private void setupTable() {
@@ -244,8 +247,12 @@ public class MasterProductViewController {
     }
 
     void scrollToLastRow() {
+        System.out.println("scrollToLastRow1");
         if (!productTable.getItems().isEmpty()) {
-            int lastRowIndex = productTable.getItems().size() - 1;
+            System.out.println("scrollToLastRow2");
+            System.out.println("productTable.getItems().size() = " + productTable.getItems().size());
+            int lastRowIndex = productTable.getItems().size();
+            System.out.println("lastRowIndex = " + lastRowIndex);
             productTable.scrollTo(lastRowIndex); // ✅ Scroll to the last item
             productTable.getSelectionModel().select(lastRowIndex); // ✅ Select last row
         }
@@ -402,10 +409,10 @@ public class MasterProductViewController {
         // ✅ Store duplicated row using Long key (ID-based)
         editedProducts.put(duplicatedProduct.getId(), duplicatedProduct);
 
+        scrollToLastRow();
+
         // ✅ Refresh table to reflect new row
         productTable.refresh();
-
-        scrollToLastRow();
 
         System.out.println("✅ Copied Row: " + duplicatedProduct);
     }
@@ -438,5 +445,35 @@ public class MasterProductViewController {
         } catch (Exception ex) {
             System.out.println("❌ Error deleting product: " + ex.getMessage());
         }
+    }
+
+    private void searchProductsFromApi(String productName) {
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            String API_URL = "http://localhost:8080/api/products/search?productName=" + productName;
+
+            ResponseEntity<Product[]> response = restTemplate.getForEntity(API_URL, Product[].class);
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                List<Product> searchResults = Arrays.asList(response.getBody());
+                ObservableList<Product> searchObservableList = FXCollections.observableArrayList(searchResults);
+                productTable.setItems(searchObservableList);
+            } else {
+                System.out.println("⚠️ No products found for: " + productName);
+            }
+        } catch (Exception ex) {
+            System.out.println("❌ Error fetching search results: " + ex.getMessage());
+        }
+    }
+
+
+    private void setupSearchField() {
+        searchNameField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.trim().isEmpty()) {
+                fetchProductsFromApi(); // If empty, fetch all products
+            } else {
+                searchProductsFromApi(newValue);
+            }
+        });
     }
 }
