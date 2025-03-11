@@ -117,7 +117,7 @@ public class MasterProductViewController {
             productNameColumn.setResizable(false);
             createTimeStampColumn.setPrefWidth(170);
             createTimeStampColumn.setResizable(false);
-            actionColumn.setPrefWidth(140);
+            actionColumn.setPrefWidth(150);
             actionColumn.setResizable(false);
 
             // Allow the other columns to auto-resize
