@@ -307,6 +307,11 @@
     -fx-background-color: #77B254;
 }
 
+/* ❌ Prevent hover from overriding edited rows */
+.table-row-cell.edited-row:hover {
+    -fx-background-color: #77B254 !important; /* Keeps edited row green */
+}
+
 /* 🎨 Search Field Styling */
 .search-textfield {
     -fx-background-color: #F8F8F8;
@@ -365,25 +370,29 @@
     -fx-padding: 8px 10px;
 }
 
-/*!* 📝 Alternate Row Colors *!*/
-/*.table-row-cell:odd {*/
-/*    -fx-background-color: #ffffff;*/
-/*}*/
-/*.table-row-cell:even {*/
-/*    -fx-background-color: #f9fafb;*/
+/* 📌 Set all rows to the same background color */
+.table-row-cell {
+    /*-fx-background-color: #ffffff; !* Keep all rows white *!*/
+    -fx-border-color: #d1d5db; /* Light gray border */
+    -fx-border-width: 0 0 1 0; /* Bottom border only */
+}
+
+/* 🚀 Hover Effect */
+.table-row-cell:hover {
+    -fx-background-color: #f3f4f6; /* Slight gray on hover */
+}
+
+/*!* ✅ Prevent hover effect from overriding dynamically updated rows *!*/
+/*.table-row-cell:filled {*/
+/*    -fx-background-color: transparent; !* Allow JavaFX to override colors *!*/
 /*}*/
 
-/*!* 🚀 Hover Effect *!*/
-/*.table-row-cell:hover {*/
-/*    -fx-background-color: #e6f0ff; !* Light blue *!*/
-/*}*/
-
-/*!* ✅ Selected Row *!*/
-/*.table-row-cell:selected {*/
-/*    -fx-background-color: #007bff !important;*/
-/*    -fx-text-fill: white;*/
-/*    -fx-font-weight: bold;*/
-/*}*/
+/* ✅ Selected Row Style */
+.table-row-cell:selected {
+    -fx-background-color: #3b82f6 !important; /* Blue selection */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
 
 /* ============================= */
 /* 🌟 ScrollPane Modern Styling  */

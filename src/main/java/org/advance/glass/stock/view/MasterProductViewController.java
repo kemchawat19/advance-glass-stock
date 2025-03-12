@@ -82,13 +82,30 @@ public class MasterProductViewController {
                 super.updateItem(product, empty);
 
                 // Clear all previous styling
-                getStyleClass().removeAll("edited-row", "normal-row");
+                getStyleClass().removeAll("edited-row");
 
                 if (empty || product == null) {
-                    getStyleClass().add("normal-row"); // Default row style
+                    setStyle(""); // Default row style
                 } else if (editedProducts.containsKey(product.getId())) {
                     getStyleClass().add("edited-row"); // Add custom style if edited
                 }
+
+                // ✅ Fix Hover: Apply ONLY to non-edited rows
+                this.setOnMouseEntered(event -> {
+                    if (!editedProducts.containsKey(product.getId())) {
+                        setStyle("-fx-background-color: #f3f4f6;"); // Light gray hover effect
+                        getStyleClass().add("edited-row");
+                    }
+                });
+
+                this.setOnMouseExited(event -> {
+                    if (!editedProducts.containsKey(product.getId())) {
+                        setStyle(""); // Reset hover
+                    } else {
+                        getStyleClass().add("edited-row"); // Reapply edited row color
+                        setStyle(""); // Let CSS control the color
+                    }
+                });
             }
         });
 
@@ -187,6 +204,18 @@ public class MasterProductViewController {
                     updateButton.setDisable(!editedProducts.containsKey(product.getId()));
 
                     deleteButton.setDisable(!editedProducts.isEmpty());
+
+//                    // ✅ Apply the correct background color for updated rows
+//                    TableRow<Product> row = getTableRow();
+//                    if (row != null) {
+//                        row.getStyleClass().removeAll("edited-row", "normal-row"); // Clear previous styles
+//
+//                        if (editedProducts.containsKey(product.getId())) {
+//                            row.getStyleClass().add("edited-row"); // ✅ Apply the edited-row CSS class
+//                        } else {
+//                            row.setStyle(""); // Default style
+//                        }
+//                    }
 
                     // ✅ Align button properly
                     HBox container = new HBox(5, updateButton, deleteButton);
