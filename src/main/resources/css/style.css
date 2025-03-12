@@ -415,13 +415,13 @@
 
 /* 🔵 Thumb (Movable Part of Scrollbar) */
 .scroll-bar .thumb {
-    -fx-background-color: #d1d5db; /* Blue color */
+    -fx-background-color: #dee2e8; /* Blue color */
     -fx-background-radius: 8px;
 }
 
 /* 🏷 Thumb Hover Effect */
 .scroll-bar .thumb:hover {
-    -fx-background-color: #b5b8bd; /* Darker blue */
+    -fx-background-color: #c4c8cc; /* Darker blue */
 }
 
 /* 📌 Track (Scroll Bar Background) */
@@ -430,12 +430,14 @@
     -fx-background-radius: 8px;
 }
 
-/*!* 🔼 ScrollBar Buttons (Arrows) *!*/
-/*.increment-button, .decrement-button {*/
-/*    -fx-background-color: #f0f2f5;*/
-/*    -fx-background-radius: 8px;*/
-/*}*/
+/* 🚫 Hide Scrollbar Arrows but Keep Space */
+.increment-button, .decrement-button {
+    -fx-opacity: 0; /* Make arrows invisible */
+    -fx-background-color: transparent;
+}
 
-/*.increment-button:hover, .decrement-button:hover {*/
-/*    -fx-background-color: #e0e3e8;*/
-/*}*/
+/* 🛑 Remove the bottom-right scrollbar corner */
+.scroll-pane .corner {
+    -fx-background-color: transparent; /* Hide background */
+    -fx-border-color: transparent;
+}
