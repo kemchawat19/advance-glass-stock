@@ -94,7 +94,6 @@ public class MasterProductViewController {
                 this.setOnMouseEntered(event -> {
                     if (!editedProducts.containsKey(product.getId())) {
                         setStyle("-fx-background-color: #f3f4f6;"); // Light gray hover effect
-                        getStyleClass().add("edited-row");
                     }
                 });
 
