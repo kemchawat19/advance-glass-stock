@@ -33,8 +33,8 @@
 
     <StackPane prefHeight="578.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
         <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="640.0" spacing="15">
-            <ScrollPane fitToHeight="true" fitToWidth="true">
-                <TableView fx:id="productTable" editable="true" prefHeight="558.0" prefWidth="600.0">
+            <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="scroll-pane">
+                <TableView fx:id="productTable" editable="true" prefHeight="558.0" prefWidth="600.0" styleClass="table-view">
                     <columns>
                         <TableColumn fx:id="productIdColumn" prefWidth="100" text="รหัสสินค้า" />
                         <TableColumn fx:id="productNameColumn" prefWidth="150" text="ชื่อสินค้า" />

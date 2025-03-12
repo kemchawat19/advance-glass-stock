@@ -254,27 +254,27 @@
 }
 
 /* 📊 Custom Table Styling */
-.table-view {
-    -fx-background-color: white;
-    -fx-border-color: #E0E0E0;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
-    -fx-padding: 5px;
-}
+/*.table-view {*/
+/*    -fx-background-color: white;*/
+/*    -fx-border-color: #E0E0E0;*/
+/*    -fx-border-radius: 5px;*/
+/*    -fx-background-radius: 5px;*/
+/*    -fx-padding: 5px;*/
+/*}*/
 
-/* 📌 Header Styling */
-.table-view .column-header-background {
-    -fx-background-color: #F9FAFB; /* Light Gray */
-    -fx-border-color: #E5E7EB;
-    -fx-border-radius: 5px 5px 0px 0px;
-    -fx-background-radius: 5px 5px 0px 0px;
-}
+/*!* 📌 Header Styling *!*/
+/*.table-view .column-header-background {*/
+/*    -fx-background-color: #F9FAFB; !* Light Gray *!*/
+/*    -fx-border-color: #E5E7EB;*/
+/*    -fx-border-radius: 5px 5px 0px 0px;*/
+/*    -fx-background-radius: 5px 5px 0px 0px;*/
+/*}*/
 
-.table-view .column-header {
-    -fx-text-fill: #1F2937; /* Dark Gray */
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
+/*.table-view .column-header {*/
+/*    -fx-text-fill: #1F2937; !* Dark Gray *!*/
+/*    -fx-font-size: 14px;*/
+/*    -fx-font-weight: bold;*/
+/*}*/
 
 /* 📌 Row Styling */
 /*.table-row-cell {*/
@@ -335,3 +335,107 @@
     -fx-background-radius: 8px;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 123, 255, 0.3), 8, 0, 0, 0);
 }
+
+/* ============================= */
+/* 🌟 Table View Modern Styling  */
+/* ============================= */
+
+.table-view {
+    -fx-background-color: #f8f9fc;  /* Light gray background */
+    -fx-border-color: #e3e6f0; /* Soft border color */
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 5px;
+}
+
+/* 📌 Remove default TableView lines */
+.table-view .column-header-background {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+}
+
+/* 🏷 Header Row Styling */
+.table-view .column-header {
+    -fx-background-color: #f4f5f7; /* Light gray header */
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0; /* Only bottom border */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6b7280;
+    -fx-padding: 8px 10px;
+}
+
+/*!* 📝 Alternate Row Colors *!*/
+/*.table-row-cell:odd {*/
+/*    -fx-background-color: #ffffff;*/
+/*}*/
+/*.table-row-cell:even {*/
+/*    -fx-background-color: #f9fafb;*/
+/*}*/
+
+/*!* 🚀 Hover Effect *!*/
+/*.table-row-cell:hover {*/
+/*    -fx-background-color: #e6f0ff; !* Light blue *!*/
+/*}*/
+
+/*!* ✅ Selected Row *!*/
+/*.table-row-cell:selected {*/
+/*    -fx-background-color: #007bff !important;*/
+/*    -fx-text-fill: white;*/
+/*    -fx-font-weight: bold;*/
+/*}*/
+
+/* ============================= */
+/* 🌟 ScrollPane Modern Styling  */
+/* ============================= */
+
+.scroll-pane {
+    -fx-background-color: transparent;  /* Remove default background */
+    -fx-border-color: transparent; /* Soft border color */
+    /*-fx-border-radius: 8px;*/
+    /*-fx-background-radius: 8px;*/
+    /*-fx-padding: 5px;*/
+}
+
+/* 📜 ScrollBar Styling */
+.scroll-pane .viewport {
+    -fx-background-color: #ffffff;  /* White background */
+    -fx-border-radius: 8px;
+}
+
+/* 🎚 Vertical Scroll Bar */
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+/* 🎚 Horizontal Scroll Bar */
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+/* 🔵 Thumb (Movable Part of Scrollbar) */
+.scroll-bar .thumb {
+    -fx-background-color: #d1d5db; /* Blue color */
+    -fx-background-radius: 8px;
+}
+
+/* 🏷 Thumb Hover Effect */
+.scroll-bar .thumb:hover {
+    -fx-background-color: #b5b8bd; /* Darker blue */
+}
+
+/* 📌 Track (Scroll Bar Background) */
+.scroll-bar .track {
+    -fx-background-color: #f0f2f5; /* Light gray */
+    -fx-background-radius: 8px;
+}
+
+/*!* 🔼 ScrollBar Buttons (Arrows) *!*/
+/*.increment-button, .decrement-button {*/
+/*    -fx-background-color: #f0f2f5;*/
+/*    -fx-background-radius: 8px;*/
+/*}*/
+
+/*.increment-button:hover, .decrement-button:hover {*/
+/*    -fx-background-color: #e0e3e8;*/
+/*}*/
