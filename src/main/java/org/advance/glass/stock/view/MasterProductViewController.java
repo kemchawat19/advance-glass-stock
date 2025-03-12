@@ -102,7 +102,7 @@ public class MasterProductViewController {
     // ✅ Dynamically Adjust Column Widths When Table Size Changes
     private void adjustColumnResizePolicy() {
         double tableWidth = productTable.getWidth();
-        double totalFixedWidth = 100 + 150 + 120 + 120 + 100 + 150 + 150; // Sum of default column widths
+        double totalFixedWidth = 100 + 150 + 120 + 120 + 100 + 150 + 140; // Sum of default column widths
 
         System.out.println("tableWidth = " + tableWidth);
         System.out.println("totalFixedWidth = " + totalFixedWidth);
@@ -137,7 +137,7 @@ public class MasterProductViewController {
             productUnitColumn.setPrefWidth(120);
             productStatusColumn.setPrefWidth(100);
             createTimeStampColumn.setPrefWidth(150);
-            actionColumn.setPrefWidth(150);
+            actionColumn.setPrefWidth(140);
         }
     }
 

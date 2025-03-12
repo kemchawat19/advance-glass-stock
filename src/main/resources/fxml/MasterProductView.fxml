@@ -42,7 +42,7 @@
                         <TableColumn fx:id="productUnitColumn" prefWidth="120" text="หน่วยสินค้า" />
                         <TableColumn fx:id="productStatusColumn" prefWidth="100" text="สถานะสินค้า" />
                         <TableColumn fx:id="createTimeStampColumn" prefWidth="150" text="เวลาที่สร้างสินค้า" />
-                        <TableColumn fx:id="actionColumn" prefWidth="150" text="Actions" />
+                        <TableColumn fx:id="actionColumn" prefWidth="140" text="Actions" />
                     </columns>
                 </TableView>
             </ScrollPane>
