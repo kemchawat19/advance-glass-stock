@@ -303,13 +303,35 @@
     -fx-background-color: #2563EB;
 }
 
-.edited-row {
-    -fx-background-color: #77B254;
+/* ✅ Default row style */
+.normal-row {
+    -fx-background-color: #ffffff; /* White background */
 }
 
-/* ❌ Prevent hover from overriding edited rows */
+/* 🟢 Edited row (Green background) */
+.edited-row {
+    -fx-background-color: #77B254 !important; /* Green for edited rows */
+}
+
+/* 🚀 Hover Effect ONLY for Non-Selected & Non-Edited Rows */
+.table-row-cell:hover {
+    -fx-background-color: #f3f4f6; /* Light gray on hover */
+}
+
+/* ❌ Prevent Hover from Changing Edited Rows */
 .table-row-cell.edited-row:hover {
     -fx-background-color: #77B254 !important; /* Keeps edited row green */
+}
+
+/* 🔵 Ensure Selected Row Stays Blue */
+.table-row-cell:selected {
+    -fx-background-color: #3b82f6 !important; /* Blue selection */
+    -fx-text-fill: white;
+}
+
+/* ❌ Prevent Hover from Overriding Selected Row (Even If Edited) */
+.table-row-cell:selected.edited-row:hover {
+    -fx-background-color: #3b82f6 !important; /* Keeps selected row blue */
 }
 
 /* 🎨 Search Field Styling */

@@ -82,26 +82,28 @@ public class MasterProductViewController {
                 super.updateItem(product, empty);
 
                 // Clear all previous styling
-                getStyleClass().removeAll("edited-row");
+                getStyleClass().removeAll("edited-row", "normal-row");
 
                 if (empty || product == null) {
                     setStyle(""); // Default row style
                 } else if (editedProducts.containsKey(product.getId())) {
-                    getStyleClass().add("edited-row"); // Add custom style if edited
+                    getStyleClass().add("edited-row"); // ✅ Apply the edited-row CSS class
+                } else {
+                    getStyleClass().add("normal-row"); // ✅ Apply normal row style
                 }
 
-                // ✅ Fix Hover: Apply ONLY to non-edited rows
+                // ✅ Fix Hover: Apply ONLY to non-edited & non-selected rows
                 this.setOnMouseEntered(event -> {
-                    if (!editedProducts.containsKey(product.getId())) {
+                    if (!editedProducts.containsKey(product.getId()) && !isSelected()) {
                         setStyle("-fx-background-color: #f3f4f6;"); // Light gray hover effect
                     }
                 });
 
                 this.setOnMouseExited(event -> {
-                    if (!editedProducts.containsKey(product.getId())) {
+                    if (!editedProducts.containsKey(product.getId()) && !isSelected()) {
                         setStyle(""); // Reset hover
-                    } else {
-                        getStyleClass().add("edited-row"); // Reapply edited row color
+                    } else if (editedProducts.containsKey(product.getId()) && !isSelected()) {
+                        getStyleClass().add("edited-row"); // ✅ Reapply edited row color if not selected
                         setStyle(""); // Let CSS control the color
                     }
                 });
