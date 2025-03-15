@@ -320,7 +320,7 @@
 
 /* ❌ Prevent Hover from Changing Edited Rows */
 .table-row-cell.edited-row:hover {
-    -fx-background-color: #77B254 !important; /* Keeps edited row green */
+    -fx-background-color: #679a48 !important; /* Keeps edited row green */
 }
 
 /* 🔵 Ensure Selected Row Stays Blue */
@@ -329,9 +329,14 @@
     -fx-text-fill: white;
 }
 
+/* 🚀 More intense hover effect for Selected row */
+.table-row-cell:selected:hover {
+    -fx-background-color: #316ac9 !important; /* Even darker blue */
+}
+
 /* ❌ Prevent Hover from Overriding Selected Row (Even If Edited) */
 .table-row-cell:selected.edited-row:hover {
-    -fx-background-color: #3b82f6 !important; /* Keeps selected row blue */
+    -fx-background-color: #316ac9 !important; /* Keeps selected row blue */
 }
 
 /* 🎨 Search Field Styling */
