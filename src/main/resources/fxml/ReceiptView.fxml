@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.advance.glass.stock.view.ReceiptViewController">
-    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
-        <padding>
-            <Insets top="10" right="10" bottom="10" left="10"/>
-        </padding>
-        <Label text="Create Receipt" styleClass="section-title"/>
-        <GridPane hgap="10" vgap="10">
-            <columnConstraints>
-                <ColumnConstraints percentWidth="30"/>
-                <ColumnConstraints percentWidth="70"/>
-            </columnConstraints>
-            <children>
-                <Label text="Receipt No:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                <TextField fx:id="receiptNoField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+<VBox alignment="CENTER" spacing="10" prefWidth="600" prefHeight="500"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.advance.glass.stock.view.ReceiptViewController">
 
-                <Label text="Supplier:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                <TextField fx:id="supplierField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
-                <Label text="Import Date:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                <DatePicker fx:id="importDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-            </children>
-        </GridPane>
-        <HBox spacing="10">
-            <Button text="Add Detail" onAction="#handleAddReceiptDetail" styleClass="modern-button"/>
-            <Button text="Create Receipt" onAction="#handleCreateReceipt" styleClass="modern-button"/>
-        </HBox>
-        <Label fx:id="statusLabel" text="Status: Waiting"/>
-    </VBox>
-</AnchorPane>
+    <Label text="Receipt Entry Form" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <!-- Header Section -->
+    <HBox spacing="20">
+        <Label text="Company: AG" />
+        <Label text="Type: REC" />
+        <Label text="Terminal: 2" />
+        <Label text="Receipt No:" />
+        <TextField fx:id="entryNumberField" prefWidth="100" editable="false"/>
+        <Label text="Date:" />
+        <DatePicker fx:id="entryDatePicker" prefWidth="120"/>
+    </HBox>
+
+    <!-- Supplier Info -->
+    <GridPane hgap="10" vgap="5">
+        <Label text="Supplier:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="supplierNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="200"/>
+
+        <Label text="Supplier's Invoice:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <TextField fx:id="supplierInvoiceField" GridPane.columnIndex="3" GridPane.rowIndex="0" prefWidth="100"/>
+    </GridPane>
+
+    <!-- Table for Receipt Details -->
+    <TableView fx:id="receiptTable" prefHeight="250">
+        <placeholder>
+            <Label text="No items added. Please add a product." style="-fx-text-fill: gray;"/>
+        </placeholder>
+        <columns>
+            <TableColumn text="SEQ" prefWidth="50"/>
+            <TableColumn text="CODE" prefWidth="100"/>
+            <TableColumn text="ITEM" prefWidth="250"/>
+            <TableColumn text="UNIT" prefWidth="80"/>
+            <TableColumn text="QUANTITY" prefWidth="80"/>
+            <TableColumn text="Unit-Price" prefWidth="100"/>
+            <TableColumn text="Amount" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+    <Button text="Add Product" fx:id="addEntryDetailButton"/>
+    <Button text="Submit Receipt" fx:id="submitButton" style="-fx-background-color: #28a745; -fx-text-fill: white;"/>
+</VBox>

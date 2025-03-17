@@ -92,20 +92,27 @@ public class MasterProductViewController {
                     getStyleClass().add("normal-row"); // ✅ Apply normal row style
                 }
 
+                // ✅ Ensure Previous Selected Row Resets
+                selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+                    if (!isNowSelected) {
+                        if (editedProducts.containsKey(product.getId())) {
+                            getStyleClass().add("edited-row"); // ✅ Keep green if edited
+                        } else {
+                            getStyleClass().add("normal-row"); // ✅ Reset to normal row if not edited
+                        }
+                        setStyle(""); // ✅ Reset to CSS-controlled style
+                    }
+                });
+
                 // ✅ Fix Hover: Apply ONLY to non-edited & non-selected rows
                 this.setOnMouseEntered(event -> {
                     if (!editedProducts.containsKey(product.getId()) && !isSelected()) {
-                        setStyle("-fx-background-color: #f3f4f6;"); // Light gray hover effect
+                        getStyleClass().add("hover-row"); // ✅ Apply hover class instead of inline style
                     }
                 });
 
                 this.setOnMouseExited(event -> {
-                    if (!editedProducts.containsKey(product.getId()) && !isSelected()) {
-                        setStyle(""); // Reset hover
-                    } else if (editedProducts.containsKey(product.getId()) && !isSelected()) {
-                        getStyleClass().add("edited-row"); // ✅ Reapply edited row color if not selected
-                        setStyle(""); // Let CSS control the color
-                    }
+                    getStyleClass().remove("hover-row"); // ✅ Remove hover effect when mouse leaves
                 });
             }
         });
@@ -304,12 +311,7 @@ public class MasterProductViewController {
 
             // Create a new Stage (Window)
             Stage stage = new Stage();
-//            stage.setTitle("เพิ่มสินค้า");
             stage.setScene(scene);
-
-            // 🏷️ Track Main Window (Stage) and Close AddProductView if Main Closes
-//            Stage mainStage = (Stage) productTable.getScene().getWindow();
-//            mainStage.setOnCloseRequest(event -> stage.close());
 
             // 🏷️ Make the AddProductView modal (blocks interaction with main window)
             stage.initModality(Modality.WINDOW_MODAL);

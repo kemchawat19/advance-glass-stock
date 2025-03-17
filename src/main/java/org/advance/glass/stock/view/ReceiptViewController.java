@@ -1,97 +1,71 @@
 package org.advance.glass.stock.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import org.advance.glass.stock.constant.EntryType;
-import org.advance.glass.stock.model.db.Entry;
+import javafx.scene.control.*;
 import org.advance.glass.stock.model.request.EntryDetailDto;
 import org.advance.glass.stock.model.request.EntryReqDto;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReceiptViewController {
 
-    // FXML-bound controls from ReceiptView.fxml
-    @FXML
-    private TextField receiptNoField;       // For receipt number
-    @FXML
-    private TextField supplierField;        // For supplier name
-    @FXML
-    private DatePicker importDatePicker;    // For import date
-    @FXML
-    private TableView<?> receiptDetailTable; // Optional: for detail lines
-    @FXML
-    private Label statusLabel;
+    @FXML private TextField entryNumberField;
+    @FXML private DatePicker entryDatePicker;
+    @FXML private TextField supplierNameField;
+    @FXML private TextField supplierInvoiceField;
+    @FXML private TextField employeeNameField;
+    @FXML private TableView<EntryDetailDto> receiptTable;
+    @FXML private Button submitButton;
+
+    private final List<EntryDetailDto> entryDetailList = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        // Set default status on initialization
-        statusLabel.setText("Status: Waiting");
+        entryDatePicker.setValue(LocalDateTime.now().toLocalDate()); // Set default date to today
+
+        submitButton.setOnAction(event -> submitReceiptEntry());
     }
 
-    @FXML
-    public void handleAddReceiptDetail() {
-        // Logic to add detail lines (e.g., open a dialog or add to a TableView)
-        System.out.println("Add Receipt Detail clicked");
-    }
-
-    @FXML
-    public void handleCreateReceipt() {
-        // 1. Collect data from UI fields.
-        String receiptNo = receiptNoField.getText();
-        String supplier = supplierField.getText();
-        LocalDate importDate = importDatePicker.getValue();
-        LocalDateTime importDateTime = (importDate != null) ? LocalDateTime.of(importDate, LocalTime.now()) : null;
-
-        // 2. Build the DTO for the receipt entry.
-        // Set the type to "RECEIPT". You can also use an enum.
-        EntryReqDto dto = EntryReqDto.builder()
-                .entryNumber(receiptNo)
-                .type(EntryType.RECEIPT.name())
-                .entryDate(importDateTime)
-                .processStatus("COMPLETED")
-                .supplierName(supplier)
-                // Optionally set other fields (supplierId, supplierInvoice, employee info)
-                // For details, we use a singleton list for demonstration.
-                .entryDetailDtoList(java.util.Collections.singletonList(
-                        EntryDetailDto.builder()
-                                .quantity(100)       // Replace with the actual quantity
-                                .unitPrice(new java.math.BigDecimal("5.00"))   // Replace with actual unit cost
-                                .amount(new java.math.BigDecimal("500.00"))  // Replace with calculated total cost
-                                .build()
-                ))
+    private void submitReceiptEntry() {
+        // ✅ Create Entry Request Object
+        EntryReqDto entryReqDto = EntryReqDto.builder()
+                .entryNumber(entryNumberField.getText())
+                .entryDate(entryDatePicker.getValue().atStartOfDay())
+                .supplierName(supplierNameField.getText())
+                .supplierInvoice(supplierInvoiceField.getText())
+                .employeeName(employeeNameField.getText())
+                .entryDetailDtoList(entryDetailList) // Include table data
                 .build();
 
-        // 3. Prepare and send the REST call using RestTemplate.
+        // ✅ Call API
+        String apiUrl = "http://localhost:8080/api/receipt-entry";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<EntryReqDto> requestEntity = new HttpEntity<>(dto, headers);
+
+        HttpEntity<EntryReqDto> requestEntity = new HttpEntity<>(entryReqDto, headers);
 
         try {
-            // Adjust the endpoint URL as necessary.
-            ResponseEntity<Entry> response = restTemplate.postForEntity(
-                    "http://localhost:8080/receipt-entry", requestEntity, Entry.class);
+            ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
+
             if (response.getStatusCode().is2xxSuccessful()) {
-                Entry createdEntry = response.getBody();
-                statusLabel.setText("Receipt created with ID: " + createdEntry.getId());
-                System.out.println("Created Receipt: " + createdEntry);
+                showAlert("Success", "Receipt entry created successfully!");
             } else {
-                statusLabel.setText("Failed to create receipt. Status: " + response.getStatusCode());
+                showAlert("Error", "Failed to create receipt entry.");
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            statusLabel.setText("Error creating receipt: " + ex.getMessage());
+        } catch (Exception e) {
+            showAlert("Error", "Error submitting receipt: " + e.getMessage());
         }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
