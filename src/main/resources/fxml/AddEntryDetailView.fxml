@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="328.0" prefWidth="300.0" spacing="20"
+      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.advance.glass.stock.view.AddEntryDetailController">
+
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20"/>
+    </padding>
+
+    <Label fx:id="labelHeader" styleClass="text-header" text="เพิ่มรายการรับสินค้า"/>
+
+    <VBox spacing="2">
+        <Label styleClass="text-normal" text="รหัสสินค้า"/>
+        <TextField fx:id="productIdField" promptText="รหัสสินค้า"/>
+    </VBox>
+
+    <VBox spacing="2">
+        <Label styleClass="text-normal" text="จำนวน"/>
+        <TextField fx:id="quantityField" promptText="จำนวน"/>
+    </VBox>
+
+    <VBox spacing="2">
+        <Label styleClass="text-normal" text="หน่วย"/>
+        <TextField fx:id="unitField" promptText="หน่วย"/>
+    </VBox>
+
+    <VBox spacing="2">
+        <Label styleClass="text-normal" text="ราคาต่อหน่วย"/>
+        <TextField fx:id="unitPriceField" promptText="ราคาต่อหน่วย"/>
+    </VBox>
+
+    <VBox spacing="2">
+        <Label styleClass="text-normal" text="ราคารวม"/>
+        <TextField fx:id="amountField" promptText="ราคารวม" editable="false"/>
+    </VBox>
+
+    <VBox spacing="2">
+        <Label styleClass="text-normal" text="รายละเอียด"/>
+        <TextField fx:id="descriptionField" promptText="รายละเอียดเพิ่มเติม"/>
+    </VBox>
+
+    <VBox alignment="CENTER">
+        <Button fx:id="saveButton" onAction="#handleSaveEntryDetail" prefHeight="26.0" prefWidth="91.0" styleClass="modern-button" text="บันทึก"/>
+    </VBox>
+</VBox>

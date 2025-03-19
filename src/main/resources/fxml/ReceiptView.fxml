@@ -35,21 +35,20 @@
     </GridPane>
 
     <!-- Table for Receipt Details -->
-    <TableView fx:id="receiptTable" prefHeight="250">
+    <TableView fx:id="receiptTable" prefHeight="250" styleClass="table-view">
         <placeholder>
             <Label text="No items added. Please add a product." style="-fx-text-fill: gray;"/>
         </placeholder>
         <columns>
-            <TableColumn text="SEQ" prefWidth="50"/>
-            <TableColumn text="CODE" prefWidth="100"/>
-            <TableColumn text="ITEM" prefWidth="250"/>
-            <TableColumn text="UNIT" prefWidth="80"/>
-            <TableColumn text="QUANTITY" prefWidth="80"/>
-            <TableColumn text="Unit-Price" prefWidth="100"/>
-            <TableColumn text="Amount" prefWidth="100"/>
+            <TableColumn fx:id="productIdColumn" text="รหัสสินค้า" prefWidth="100"/>
+            <TableColumn fx:id="quantityColumn" text="จำนวน" prefWidth="80"/>
+            <TableColumn fx:id="unitColumn" text="หน่วย" prefWidth="80"/>
+            <TableColumn fx:id="unitPriceColumn" text="ราคาต่อหน่วย" prefWidth="100"/>
+            <TableColumn fx:id="amountColumn" text="ราคารวม" prefWidth="100"/>
+            <TableColumn fx:id="descriptionColumn" text="รายละเอียด" prefWidth="150"/>
         </columns>
     </TableView>
 
-    <Button text="Add Product" fx:id="addEntryDetailButton"/>
+    <Button text="Add Product" onAction="#handleOpenAddEntryDetailStage"/>
     <Button text="Submit Receipt" fx:id="submitButton" style="-fx-background-color: #28a745; -fx-text-fill: white;"/>
 </VBox>

@@ -1,8 +1,8 @@
 package org.advance.glass.stock.service;
 
 import lombok.RequiredArgsConstructor;
-import org.advance.glass.stock.constant.ProcessStatus;
 import org.advance.glass.stock.constant.EntryType;
+import org.advance.glass.stock.constant.ProcessStatus;
 import org.advance.glass.stock.model.db.Entry;
 import org.advance.glass.stock.model.db.EntryDetail;
 import org.advance.glass.stock.model.db.Stock;
@@ -28,12 +28,17 @@ public class EntryService {
 
     @Transactional
     public void createReceiptEntry(EntryReqDto entryReqDto) {
+        System.out.println("createReceiptEntry = " + entryReqDto);
         // Set type explicitly.
         entryReqDto.setType(EntryType.RECEIPT.name());
         Entry entry = mapEntry(entryReqDto);
-        entry.setEntryNumber(generateNextEntryNumber(EntryType.RECEIPT.name()));
+        String seq = generateNextEntryNumber(EntryType.RECEIPT.name());
+        System.out.println("seq = "+seq);
+        entry.setEntryNumber(seq);
+        System.out.println("entry = "+entry);
         Entry savedEntry = entryRepository.save(entry);
         // For receipts, add quantities (multiplier +1)
+        System.out.println("savedEntry = " + savedEntry);
         updateStock(savedEntry, +1);
     }
 

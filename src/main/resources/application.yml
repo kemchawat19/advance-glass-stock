@@ -36,3 +36,14 @@ spring:
       encoding: UTF-8
       schema-locations: classpath:script/schema.sql
       data-locations: classpath:script/data.sql
+
+#logging:
+#  level:
+#    org.hibernate.SQL: DEBUG  # ✅ Show only SQL queries
+#    org.hibernate.type.descriptor.sql: TRACE  # ✅ Show SQL parameter values
+#    org.hibernate.orm.jdbc.bind: TRACE  # ✅ Show SQL binding details
+#    org.hibernate.stat: ERROR  # ❌ Prevent logging Hibernate statistics
+#    org.hibernate.engine.internal.Cascade: ERROR  # ❌ Prevent recursive cascade logging
+#    org.hibernate.pretty: ERROR  # ❌ Disable entity pretty-printing
+#    org.hibernate.collection: ERROR  # ❌ Disable collection logging
+#    org.hibernate.cache: ERROR  # ❌ Disable cache logging
