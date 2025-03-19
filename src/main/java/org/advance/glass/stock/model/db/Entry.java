@@ -1,16 +1,15 @@
 package org.advance.glass.stock.model.db;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,7 +36,6 @@ public class Entry {
     @Column(nullable = false)
     private String entryType;
 
-    //can change from input
     @NotNull
     @Column(nullable = false)
     private LocalDateTime entryDate;
@@ -58,7 +56,6 @@ public class Entry {
     @Size(max = 255)
     private String supplierName;
 
-    //add from input
     @Size(max = 20)
     private String supplierInvoice;
 
@@ -70,8 +67,10 @@ public class Entry {
     @Size(max = 100)
     private String description;
 
-    @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL)
-    private List<EntryDetail> entryDetailList;
+    @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    @ToString.Exclude
+    private List<EntryDetail> entryDetailList = new ArrayList<>();
 
     @CreationTimestamp
     @Column(updatable = false)
